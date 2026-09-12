@@ -7,15 +7,23 @@ class SoundController {
     this.audioCtx = null;
     this.soundEnabled = true;
     this.speechEnabled = true;
-    this.synth = window.speechSynthesis || null;
     this.currentUtterance = null;
     this.selectedVoice = null;
+    this.synth = null;
 
-    if (this.synth) {
-      this.initVoices();
-      if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = () => this.initVoices();
+    // Speech synthesis support/behavior varies a lot across browsers/devices.
+    // Never let a misbehaving Web Speech API crash the whole app on startup.
+    try {
+      this.synth = window.speechSynthesis || null;
+      if (this.synth) {
+        this.initVoices();
+        if (this.synth.onvoiceschanged !== undefined) {
+          this.synth.onvoiceschanged = () => this.initVoices();
+        }
       }
+    } catch (e) {
+      console.warn("Speech synthesis unavailable, continuing without voice narration", e);
+      this.synth = null;
     }
   }
 
@@ -33,7 +41,13 @@ class SoundController {
 
   initVoices() {
     if (!this.synth) return;
-    const voices = this.synth.getVoices();
+    let voices = [];
+    try {
+      voices = this.synth.getVoices() || [];
+    } catch (e) {
+      console.warn("Could not read speech synthesis voices", e);
+      return;
+    }
     if (!voices.length) return;
 
     // Known female voice names across Windows, macOS/iOS, Android, and Chrome/Edge

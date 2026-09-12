@@ -69,28 +69,40 @@ class App {
   renderCurrentView() {
     this.updateHeaderStats();
 
-    switch (this.currentScreen) {
-      case 'home-view':
-        this.renderHome();
-        break;
-      case 'game-view':
-        // Question is rendered by loadNextQuestion / renderQuestion
-        break;
-      case 'topics-view':
-        this.renderTopics();
-        break;
-      case 'dance-view':
-        this.dannyGo.renderDanceLobby(document.getElementById('dance-lobby-container'));
-        break;
-      case 'stickers-view':
-        this.renderStickers();
-        break;
-      case 'badges-view':
-        this.renderBadges();
-        break;
-      case 'parent-view':
-        this.renderParentDashboard();
-        break;
+    try {
+      switch (this.currentScreen) {
+        case 'home-view':
+          this.renderHome();
+          break;
+        case 'game-view':
+          // Question is rendered by loadNextQuestion / renderQuestion
+          break;
+        case 'topics-view':
+          this.renderTopics();
+          break;
+        case 'dance-view':
+          this.dannyGo.renderDanceLobby(document.getElementById('dance-lobby-container'));
+          break;
+        case 'stickers-view':
+          this.renderStickers();
+          break;
+        case 'badges-view':
+          this.renderBadges();
+          break;
+        case 'parent-view':
+          this.renderParentDashboard();
+          break;
+      }
+    } catch (e) {
+      console.error(`Error rendering ${this.currentScreen}`, e);
+      const container = document.getElementById(this.currentScreen);
+      if (container) {
+        container.innerHTML = `
+          <div style="max-width:500px;margin:40px auto;padding:20px;background:#FFF7ED;border:2px solid #FDBA74;border-radius:16px;text-align:center;">
+            <p>😅 This screen had trouble loading. Try tapping Home and coming back!</p>
+          </div>
+        `;
+      }
     }
   }
 
@@ -903,5 +915,18 @@ class App {
 
 // Start application when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  window.app = new App();
+  try {
+    window.app = new App();
+  } catch (e) {
+    // A total startup failure should never leave a silent blank page.
+    console.error("Lily's GATE Adventure failed to start", e);
+    const main = document.querySelector('.app-main') || document.body;
+    main.innerHTML = `
+      <div style="max-width:600px;margin:60px auto;padding:24px;background:#FFF7ED;border:2px solid #FDBA74;border-radius:16px;text-align:center;font-family:sans-serif;">
+        <h2 style="margin-bottom:12px;">😅 Oops! The game had trouble starting.</h2>
+        <p style="margin-bottom:16px;color:#7C2D12;">Please try refreshing the page. If this keeps happening, try a different browser (Chrome, Edge, or Safari work best).</p>
+        <button onclick="location.reload()" style="padding:10px 20px;border-radius:50px;border:none;background:#F97316;color:#fff;font-weight:700;cursor:pointer;">Refresh & Try Again</button>
+      </div>
+    `;
+  }
 });
