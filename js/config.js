@@ -33,6 +33,72 @@ const EXTRA_STICKERS = EXTRA_STICKER_STYLES.flatMap((style, styleIndex) =>
   }))
 );
 
+const CATEGORY_BADGE_DEFS = [
+  { category: "matrix_reasoning", label: "Matrix" },
+  { category: "math_logic", label: "Math" },
+  { category: "verbal_detective", label: "Word" },
+  { category: "spatial_folding", label: "Spatial" },
+  { category: "logic_mysteries", label: "Mystery" },
+  { category: "science_inquiry", label: "Science" }
+];
+const CATEGORY_BADGE_TIERS = [
+  { count: 10, suffix: "Apprentice", icon: "🥉" },
+  { count: 20, suffix: "Adept", icon: "🥈" },
+  { count: 35, suffix: "Expert", icon: "🥇" },
+  { count: 50, suffix: "Master", icon: "💎" },
+  { count: 75, suffix: "Legend", icon: "👑" }
+];
+const EXTRA_CATEGORY_BADGES = CATEGORY_BADGE_DEFS.flatMap(def =>
+  CATEGORY_BADGE_TIERS.map(tier => ({
+    id: `${def.category}_${tier.count}`,
+    name: `${def.label} ${tier.suffix}`,
+    icon: tier.icon,
+    desc: `Solved ${tier.count} ${def.label} puzzles correctly!`,
+    condition: { type: "category", category: def.category, count: tier.count }
+  }))
+);
+
+const SOLVED_MILESTONES = [
+  { count: 75, icon: "📈" }, { count: 100, icon: "📈" },
+  { count: 150, icon: "🎯" }, { count: 200, icon: "🎯" },
+  { count: 300, icon: "🏆" }, { count: 400, icon: "🏆" },
+  { count: 500, icon: "💫" }, { count: 750, icon: "💫" }, { count: 1000, icon: "💫" }
+];
+const EXTRA_SOLVED_BADGES = SOLVED_MILESTONES.map(m => ({
+  id: `solved_${m.count}`,
+  name: `${m.count} Puzzles Solved!`,
+  icon: m.icon,
+  desc: `Reached ${m.count} total correct puzzles!`,
+  condition: { type: "solved", count: m.count }
+}));
+
+const STREAK_MILESTONES = [15, 20, 25, 30, 40];
+const EXTRA_STREAK_BADGES = STREAK_MILESTONES.map(count => ({
+  id: `streak_${count}`,
+  name: `Streak Master ${count}!`,
+  icon: "🔥",
+  desc: `Got ${count} puzzles right in a row!`,
+  condition: { type: "streak", count }
+}));
+
+const DANCE_MILESTONES = [10, 15, 20, 25];
+const EXTRA_DANCE_BADGES = DANCE_MILESTONES.map(count => ({
+  id: `dance_${count}`,
+  name: `Dance Party x${count}!`,
+  icon: "🎶",
+  desc: `Completed ${count} Danny Go dance parties!`,
+  condition: { type: "dance", count }
+}));
+
+const STICKER_MILESTONES = [25, 75];
+const EXTRA_STICKER_BADGES = STICKER_MILESTONES.map(count => ({
+  id: `stickers_${count}`,
+  name: `Sticker Collector ${count}!`,
+  icon: "🎨",
+  desc: `Collected ${count} stickers in the Sticker Studio!`,
+  condition: { type: "stickers", count }
+}));
+
 const CONFIG = {
   appName: "Lily's GATE Adventure",
   subtitle: "Winding Creek Elementary • Stafford County Gifted Prep",
@@ -197,7 +263,12 @@ const CONFIG = {
     { id: "danny_go_rockstar", name: "Dance Rockstar", icon: "🕺", desc: "Completed 5 Danny Go dance parties!", condition: { type: "dance", count: 5 } },
     { id: "stafford_scholar", name: "Stafford Scholar", icon: "🎓", desc: "Reached 25 total correct puzzles!", condition: { type: "solved", count: 25 } },
     { id: "winding_creek_pride", name: "Winding Creek Hero", icon: "🏫", desc: "Reached 50 total correct puzzles!", condition: { type: "solved", count: 50 } },
-    { id: "gate_superstar", name: "GATE Superstar", icon: "👑", desc: "Achieved Master Level in all 6 domains!", condition: { type: "all_mastery" } }
+    { id: "gate_superstar", name: "GATE Superstar", icon: "👑", desc: "Achieved Master Level in all 6 domains!", condition: { type: "all_mastery" } },
+    ...EXTRA_CATEGORY_BADGES,
+    ...EXTRA_SOLVED_BADGES,
+    ...EXTRA_STREAK_BADGES,
+    ...EXTRA_DANCE_BADGES,
+    ...EXTRA_STICKER_BADGES
   ],
 
   pets: [

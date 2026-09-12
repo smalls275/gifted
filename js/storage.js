@@ -180,6 +180,10 @@ class StorageManager {
         if (allMaster && Object.keys(masteryMap).length > 0) {
           meets = true;
         }
+      } else if (cond.type === 'stickers') {
+        if ((this.state.unlockedStickers || []).length >= cond.count) {
+          meets = true;
+        }
       }
 
       if (meets) {
