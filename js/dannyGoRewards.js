@@ -29,7 +29,7 @@ class DannyGoRewards {
       <div class="danny-lobby-header">
         <div class="danny-badge-tag">🌟 DANNY GO! DANCE CLUB 🕺</div>
         <h2>Dance & Get Moving with Danny Go!</h2>
-        <p class="danny-subtitle">Earn 5 stars in your puzzles to unlock high-energy dance breaks that get you jumping and dancing!</p>
+        <p class="danny-subtitle">Earn ${progress.target} stars in your puzzles to unlock high-energy dance breaks that get you jumping and dancing!</p>
         
         <div class="dance-energy-meter">
           <div class="meter-info">
@@ -85,6 +85,13 @@ class DannyGoRewards {
   }
 
   startDanceSession(videoId) {
+    if (!this.isUnlocked()) {
+      const progress = this.storage.getDanceProgress();
+      this.sounds.playTryAgain();
+      this.sounds.speak(`Solve ${progress.target - progress.current} more puzzles to unlock the dance party!`);
+      return;
+    }
+
     const video = CONFIG.dannyGoVideos.find(v => v.id === videoId) || CONFIG.dannyGoVideos[0];
     this.activeVideo = video;
     this.sounds.playFanfare();

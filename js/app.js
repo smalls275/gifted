@@ -754,7 +754,7 @@ class App {
               <h3>${b.name}</h3>
               <p>${b.desc}</p>
               <div class="badge-status-pill">
-                ${isUnlocked ? '🌟 UNLOCKED (+3 💎)' : '🔒 Locked'}
+                ${isUnlocked ? `🌟 UNLOCKED (+${formatMoney(75)})` : '🔒 Locked'}
               </div>
             </div>
           `;
