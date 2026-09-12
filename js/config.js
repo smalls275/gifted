@@ -2,6 +2,37 @@
  * Application Configuration & Assets Registry
  */
 
+function formatMoney(cents) {
+  return `$${(cents / 100).toFixed(2)}`;
+}
+
+const EXTRA_STICKER_STYLES = [
+  'Sparkly', 'Rainbow', 'Golden', 'Silly', 'Brave',
+  'Happy', 'Super', 'Magic', 'Dancing', 'Cosmic'
+];
+
+const EXTRA_STICKER_THEMES = [
+  { name: 'Apple', emoji: '🍎' },
+  { name: 'Bee', emoji: '🐝' },
+  { name: 'Dolphin', emoji: '🐬' },
+  { name: 'Flower', emoji: '🌼' },
+  { name: 'Ladybug', emoji: '🐞' },
+  { name: 'Moon', emoji: '🌙' },
+  { name: 'Pencil', emoji: '✏️' },
+  { name: 'Pizza', emoji: '🍕' },
+  { name: 'Robot', emoji: '🤖' },
+  { name: 'Sun', emoji: '☀️' }
+];
+
+const EXTRA_STICKERS = EXTRA_STICKER_STYLES.flatMap((style, styleIndex) =>
+  EXTRA_STICKER_THEMES.map((theme, themeIndex) => ({
+    id: `s${13 + (styleIndex * EXTRA_STICKER_THEMES.length) + themeIndex}`,
+    name: `${style} ${theme.name}`,
+    emoji: theme.emoji,
+    costCents: 50 + (((styleIndex + themeIndex) % 7) * 25)
+  }))
+);
+
 const CONFIG = {
   appName: "Lily's GATE Adventure",
   subtitle: "Winding Creek Elementary • Stafford County Gifted Prep",
@@ -14,7 +45,7 @@ const CONFIG = {
     pet: "unicorn",
     petName: "Sparkle",
     stars: 10,
-    gems: 5,
+    moneyCents: 125,
     streak: 1,
     level: 1,
     dannyGoThreshold: 5 // Stars required to unlock a Danny Go! dance party break
@@ -178,17 +209,18 @@ const CONFIG = {
   ],
 
   stickers: [
-    { id: "s1", name: "Rainbow Star", emoji: "🌈", cost: 3 },
-    { id: "s2", name: "Cupcake Crown", emoji: "🧁", cost: 3 },
-    { id: "s3", name: "Magic Wand", emoji: "🪄", cost: 4 },
-    { id: "s4", name: "Super Diamond", emoji: "💎", cost: 5 },
-    { id: "s5", name: "Glowing Rocket", emoji: "🚀", cost: 4 },
-    { id: "s6", name: "Dancing Butterfly", emoji: "🦋", cost: 3 },
-    { id: "s7", name: "Golden Trophy", emoji: "🏆", cost: 6 },
-    { id: "s8", name: "Flower Crown", emoji: "🌸", cost: 3 },
-    { id: "s9", name: "Stafford Star Owl", emoji: "🦉", cost: 5 },
-    { id: "s10", name: "Danny Go Lava Stone", emoji: "🌋", cost: 4 },
-    { id: "s11", name: "Music Heart", emoji: "💖", cost: 3 },
-    { id: "s12", name: "Genius Lightbulb", emoji: "💡", cost: 4 }
+    { id: "s1", name: "Rainbow Star", emoji: "🌈", costCents: 75 },
+    { id: "s2", name: "Cupcake Crown", emoji: "🧁", costCents: 75 },
+    { id: "s3", name: "Magic Wand", emoji: "🪄", costCents: 100 },
+    { id: "s4", name: "Super Diamond", emoji: "💎", costCents: 125 },
+    { id: "s5", name: "Glowing Rocket", emoji: "🚀", costCents: 100 },
+    { id: "s6", name: "Dancing Butterfly", emoji: "🦋", costCents: 75 },
+    { id: "s7", name: "Golden Trophy", emoji: "🏆", costCents: 150 },
+    { id: "s8", name: "Flower Crown", emoji: "🌸", costCents: 75 },
+    { id: "s9", name: "Stafford Star Owl", emoji: "🦉", costCents: 125 },
+    { id: "s10", name: "Danny Go Lava Stone", emoji: "🌋", costCents: 100 },
+    { id: "s11", name: "Music Heart", emoji: "💖", costCents: 75 },
+    { id: "s12", name: "Genius Lightbulb", emoji: "💡", costCents: 100 },
+    ...EXTRA_STICKERS
   ]
 };

@@ -47,13 +47,23 @@ class StorageManager {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const parsed = JSON.parse(raw);
-        // Merge with defaults to ensure all keys exist
-        return { ...this.getDefaultState(), ...parsed };
+        // Merge with defaults to ensure all keys exist (profile merged deeply so new fields survive)
+        const merged = { ...this.getDefaultState(), ...parsed, profile: { ...this.getDefaultState().profile, ...parsed.profile } };
+        this.migrateGemsToMoney(merged.profile);
+        return merged;
       }
     } catch (e) {
       console.warn("Could not load from localStorage, using defaults", e);
     }
     return this.getDefaultState();
+  }
+
+  // Converts old diamond ("gems") saves to the new money economy at $0.25 per gem
+  migrateGemsToMoney(profile) {
+    if (typeof profile.gems === 'number') {
+      profile.moneyCents = Math.round(profile.gems * 25);
+      delete profile.gems;
+    }
   }
 
   save() {
@@ -94,9 +104,9 @@ class StorageManager {
       this.state.profile.stars += 1;
       this.state.starsSinceLastDance += 1;
 
-      // Every 3 streak grants bonus gems
+      // Every 3 streak grants bonus money
       if (this.state.currentStreak % 3 === 0) {
-        this.state.profile.gems += 2;
+        this.state.profile.moneyCents += 50;
       }
     } else {
       this.state.currentStreak = 0;
@@ -120,7 +130,7 @@ class StorageManager {
   recordDanceCompleted(videoId) {
     this.state.dancesCompleted += 1;
     this.state.starsSinceLastDance = 0;
-    this.state.profile.gems += 5; // Reward 5 gems for dancing!
+    this.state.profile.moneyCents += 100; // Reward $1.00 for dancing!
     this.save();
   }
 
@@ -169,7 +179,7 @@ class StorageManager {
       if (meets) {
         unlocked.push(badge.id);
         newlyUnlocked.push(badge);
-        this.state.profile.gems += 3; // Bonus gems for badge!
+        this.state.profile.moneyCents += 75; // Bonus money for badge!
       }
     });
 
@@ -180,9 +190,9 @@ class StorageManager {
     return newlyUnlocked;
   }
 
-  buySticker(stickerId, cost) {
-    if (this.state.profile.gems >= cost && !this.state.unlockedStickers.includes(stickerId)) {
-      this.state.profile.gems -= cost;
+  buySticker(stickerId, costCents) {
+    if (this.state.profile.moneyCents >= costCents && !this.state.unlockedStickers.includes(stickerId)) {
+      this.state.profile.moneyCents -= costCents;
       this.state.unlockedStickers.push(stickerId);
       this.save();
       return true;
@@ -213,7 +223,8 @@ class StorageManager {
     try {
       const parsed = JSON.parse(jsonString);
       if (parsed.profile && parsed.categoryStats) {
-        this.state = { ...this.getDefaultState(), ...parsed };
+        this.state = { ...this.getDefaultState(), ...parsed, profile: { ...this.getDefaultState().profile, ...parsed.profile } };
+        this.migrateGemsToMoney(this.state.profile);
         this.save();
         return true;
       }

@@ -118,7 +118,7 @@ class App {
     const headerDanceBadge = document.getElementById('header-dance-badge');
 
     if (starCount) starCount.textContent = profile.stars;
-    if (gemCount) gemCount.textContent = profile.gems;
+    if (gemCount) gemCount.textContent = formatMoney(profile.moneyCents);
     if (streakCount) streakCount.textContent = state.currentStreak;
     if (studentName) studentName.textContent = profile.name;
 
@@ -649,11 +649,11 @@ class App {
       <div class="stickers-header">
         <div class="stickers-title-wrap">
           <h2>🎨 Lily's Magical Sticker Studio</h2>
-          <p>Use the shiny gems you earned to collect cute stickers and decorate your room!</p>
+          <p>Use the money you earned to collect cute stickers and decorate your room!</p>
         </div>
         <div class="gem-purse">
-          <span>💎 Lily's Gems:</span>
-          <strong>${profile.gems}</strong>
+          <span>💰 Lily's Money:</span>
+          <strong>${formatMoney(profile.moneyCents)}</strong>
         </div>
       </div>
 
@@ -668,7 +668,7 @@ class App {
                 <div class="sticker-name">${st.name}</div>
                 ${isOwned 
                   ? `<span class="owned-tag">✨ Owned</span>` 
-                  : `<button class="btn-buy-sticker" data-id="${st.id}" data-cost="${st.cost}">Buy for ${st.cost} 💎</button>`}
+                  : `<button class="btn-buy-sticker" data-id="${st.id}" data-cost="${st.costCents}">Buy for ${formatMoney(st.costCents)}</button>`}
               </div>
             `;
           }).join('')}
@@ -703,7 +703,7 @@ class App {
           this.updateHeaderStats();
         } else {
           sounds.playTryAgain();
-          sounds.speak("You need more gems! Solve more puzzles or dance with Danny Go to get gems!");
+          sounds.speak("You need more money! Solve more puzzles or dance with Danny Go to earn more!");
         }
       });
     });
