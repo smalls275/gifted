@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Lily's GATE Adventure - Winding Creek Elementary</title>
+  <meta name="description" content="Intelligent adaptive learning game for Lily. Comprehensive 1st Grade Virginia SOL & Stafford County Gifted (GATE / FOCUS) screening prep with Danny Go! dance breaks!">
+  <meta name="theme-color" content="#6366F1">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦄</text></svg>">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Confetti library for celebrations -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- Top Application Header -->
+  <header class="app-header">
+    <div class="header-brand" data-nav="home-view">
+      <span class="brand-logo-sparkle">🦄</span>
+      <div class="brand-text">
+        <h1>Lily's GATE Adventure</h1>
+        <span class="brand-school-tag">Winding Creek Elementary • Stafford, VA</span>
+      </div>
+    </div>
+
+    <div class="header-stats-bar">
+      <div class="stat-chip star-chip" title="Stars Earned">
+        <span>⭐</span>
+        <span id="stat-stars">0</span>
+      </div>
+
+      <div class="stat-chip gem-chip" title="Gems Collected">
+        <span>💎</span>
+        <span id="stat-gems">0</span>
+      </div>
+
+      <div class="stat-chip streak-chip" title="Daily Streak">
+        <span>🔥</span>
+        <span id="stat-streak">0</span>
+      </div>
+
+      <div class="stat-chip dance-badge-chip" id="header-dance-badge" data-nav="dance-view" title="Danny Go Dance Energy">
+        <span>🕺</span>
+        <span class="dance-count-text">0/5 ⭐</span>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <button class="btn-ctrl" id="btn-toggle-voice" title="Toggle Voice Narration">🗣️ Voice On</button>
+      <button class="btn-ctrl" id="btn-toggle-sound" title="Toggle Sound Effects">🔊 Sound On</button>
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav class="app-nav">
+    <button class="nav-btn active" data-nav="home-view">
+      <span>🏠</span> Home
+    </button>
+    <button class="nav-btn" data-nav="game-view">
+      <span>🚀</span> Smart Play
+    </button>
+    <button class="nav-btn" data-nav="topics-view">
+      <span>📚</span> Practice Topics
+    </button>
+    <button class="nav-btn" data-nav="dance-view">
+      <span>💃</span> Danny Go! Dance
+    </button>
+    <button class="nav-btn" data-nav="stickers-view">
+      <span>🎨</span> Sticker Studio
+    </button>
+    <button class="nav-btn" data-nav="badges-view">
+      <span>🏆</span> Trophies
+    </button>
+    <button class="nav-btn" data-nav="parent-view">
+      <span>📊</span> Parent Portal
+    </button>
+  </nav>
+
+  <!-- Main View Container -->
+  <main class="app-main">
+    
+    <!-- Screen 1: Home Dashboard -->
+    <section class="app-screen" id="home-view">
+      <div id="home-container"></div>
+    </section>
+
+    <!-- Screen 2: Game / Question Arena -->
+    <section class="app-screen hidden" id="game-view">
+      <div class="game-arena-card" id="game-arena-container"></div>
+    </section>
+
+    <!-- Screen 3: Practice Topics -->
+    <section class="app-screen hidden" id="topics-view">
+      <div id="topics-container"></div>
+    </section>
+
+    <!-- Screen 4: Danny Go! Dance Lobby -->
+    <section class="app-screen hidden" id="dance-view">
+      <div id="dance-lobby-container"></div>
+    </section>
+
+    <!-- Screen 5: Sticker Studio -->
+    <section class="app-screen hidden" id="stickers-view">
+      <div id="stickers-container"></div>
+    </section>
+
+    <!-- Screen 6: Trophies & Badges -->
+    <section class="app-screen hidden" id="badges-view">
+      <div id="badges-container"></div>
+    </section>
+
+    <!-- Screen 7: Parent Portal & Standards -->
+    <section class="app-screen hidden" id="parent-view">
+      <div id="parent-container"></div>
+    </section>
+
+  </main>
+
+  <!-- Dance Party Modal Container (YouTube Embed) -->
+  <div id="dance-party-modal" class="hidden"></div>
+
+  <!-- Plain scripts (not type="module") so the game also works when opened directly from disk (file://) without a server -->
+  <script src="js/config.js"></script>
+  <script src="js/standards.js"></script>
+  <script src="js/questionGenerators.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/adaptiveEngine.js"></script>
+  <script src="js/petCompanion.js"></script>
+  <script src="js/dannyGoRewards.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
