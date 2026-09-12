@@ -71,23 +71,13 @@ The application is built with standard Web technologies (HTML5, CSS3, ES Modules
 
 ## 🚀 Deployment to GitHub Pages
 
-This repository is pre-configured with a GitHub Actions workflow in `.github/workflows/deploy.yml` for automated GitHub Pages hosting.
+This repository is pushed to [github.com/smalls275/gifted](https://github.com/smalls275/gifted) and is pre-configured with a GitHub Actions workflow in `.github/workflows/deploy.yml` for automated GitHub Pages hosting.
 
-### Steps to Deploy to `smalls275.github.io`:
-1. Push this code to a new repository on GitHub (e.g. `https://github.com/smalls275/gate-prep`):
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit for Lily's GATE Adventure"
-   git branch -M main
-   git remote add origin https://github.com/smalls275/gate-prep.git
-   git push -u origin main
-   ```
-2. In your GitHub repository settings:
-   * Go to **Settings** > **Pages**.
-   * Under **Build and deployment** > **Source**, select **GitHub Actions**.
-3. The app will be live at:
-   `https://smalls275.github.io/gate-prep/`
+### To finish enabling GitHub Pages (one-time, manual step):
+1. Go to **Settings** > **Pages** on the [gifted repository](https://github.com/smalls275/gifted/settings/pages).
+2. Under **Build and deployment** > **Source**, select **GitHub Actions**.
+3. The app will then be live at:
+   `https://smalls275.github.io/gifted/`
 
 ---
 
