@@ -310,10 +310,8 @@ function generateComparisonFacts(count) {
 function generateThreeNumberOrdering(count) {
   const out = [];
   for (let i = 0; i < count; i++) {
-    const nums = pgShuffle([pgRandInt(1, 40), pgRandInt(1, 40), pgRandInt(1, 40)]);
-    while (new Set(nums).size < 3) {
-      nums[2] = pgRandInt(1, 40);
-    }
+    // Shuffle a full 1-40 range and take the first 3 so distinctness is guaranteed (no retry loop needed)
+    const nums = pgShuffle(Array.from({ length: 40 }, (_, k) => k + 1)).slice(0, 3);
     const ascending = [...nums].sort((x, y) => x - y);
     const correctText = ascending.join(", ");
     const wrong1 = [...ascending].reverse().join(", ");
