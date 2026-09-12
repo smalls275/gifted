@@ -73,7 +73,9 @@ function generateAdditionFacts(count) {
     (a, b) => `There are ${a} kids on the swings and ${b} more run over. How many kids in all?`,
     (a, b) => `${a} birds are in a tree. ${b} more land on it. How many birds now?`,
     (a, b) => `A basket has ${a} apples. Someone adds ${b} more apples. How many apples total?`,
-    (a, b) => `Lily collects ${a} seashells at the beach, then finds ${b} more. How many seashells now?`
+    (a, b) => `Lily collects ${a} seashells at the beach, then finds ${b} more. How many seashells now?`,
+    (a, b) => `Lily plants ${a} flowers in the garden, then plants ${b} more. How many flowers are planted now?`,
+    (a, b) => `There are ${a} fish in the tank. ${b} more fish are added. How many fish are in the tank now?`
   ];
   const out = [];
   for (let i = 0; i < count; i++) {
@@ -107,7 +109,9 @@ function generateSubtractionFacts(count) {
     (a, b) => `${a} ducks were swimming. ${b} swam away. How many ducks are left?`,
     (a, b) => `There were ${a} crayons in the box. ${b} rolled onto the floor. How many crayons are still in the box?`,
     (a, b) => `${a} balloons floated in the sky. ${b} popped. How many balloons are left?`,
-    (a, b) => `Lily had ${a} dollars. She spent ${b} dollars on a toy. How much money is left?`
+    (a, b) => `Lily had ${a} dollars. She spent ${b} dollars on a toy. How much money is left?`,
+    (a, b) => `There were ${a} pencils in a cup. Lily gave away ${b} pencils. How many pencils are left in the cup?`,
+    (a, b) => `${a} frogs sat on a log. ${b} frogs hopped away. How many frogs are left?`
   ];
   const out = [];
   for (let i = 0; i < count; i++) {
@@ -540,7 +544,27 @@ const VERBAL_ANALOGY_POOL = [
   { pair1: "Spring ➔ Flowers Bloom", pair2: "Fall ➔ ?", correct: "Leaves Change Color", correctIcon: "🍂 Leaves Change", distractors: [{ text: "Snow Falls Everywhere", icon: "❄️ Snow" }, { text: "It Never Gets Cold", icon: "☀️ Hot" }, { text: "Flowers Never Grow", icon: "🚫 No Flowers" }], hint: "In spring, flowers bloom. In fall (autumn), what happens to leaves?" },
   { pair1: "Whale ➔ Ocean", pair2: "Camel ➔ ?", correct: "Desert", correctIcon: "🐪 Desert", distractors: [{ text: "Ocean", icon: "🌊 Ocean" }, { text: "Arctic", icon: "❄️ Arctic" }, { text: "Rainforest", icon: "🌴 Rainforest" }], hint: "A whale lives in the ocean. A camel lives in the...?" },
   { pair1: "Penguin ➔ Cannot Fly", pair2: "Eagle ➔ ?", correct: "Can Fly", correctIcon: "🦅 Can Fly", distractors: [{ text: "Cannot Fly", icon: "🚫 Cannot Fly" }, { text: "Swims Only", icon: "🏊 Swims Only" }, { text: "Cannot Walk", icon: "🚫 Cannot Walk" }], hint: "A penguin is a bird that cannot fly. An eagle is a bird that...?" },
-  { pair1: "Spider ➔ 8 Legs", pair2: "Insect ➔ ?", correct: "6 Legs", correctIcon: "🐜 6 Legs", distractors: [{ text: "4 Legs", icon: "🐕 4 Legs" }, { text: "10 Legs", icon: "🦞 10 Legs" }, { text: "2 Legs", icon: "🐦 2 Legs" }], hint: "A spider has 8 legs. Most insects (like ants) have...?" }
+  { pair1: "Spider ➔ 8 Legs", pair2: "Insect ➔ ?", correct: "6 Legs", correctIcon: "🐜 6 Legs", distractors: [{ text: "4 Legs", icon: "🐕 4 Legs" }, { text: "10 Legs", icon: "🦞 10 Legs" }, { text: "2 Legs", icon: "🐦 2 Legs" }], hint: "A spider has 8 legs. Most insects (like ants) have...?" },
+  { pair1: "Sun ➔ Day", pair2: "Moon ➔ ?", correct: "Night", correctIcon: "🌙 Night", distractors: [{ text: "Star", icon: "⭐ Star" }, { text: "Cloud", icon: "☁️ Cloud" }, { text: "Rain", icon: "🌧️ Rain" }], hint: "The sun shines during the day. The moon shines during the...?" },
+  { pair1: "Bird ➔ Feathers", pair2: "Fish ➔ ?", correct: "Scales", correctIcon: "🐟 Scales", distractors: [{ text: "Fur", icon: "🐻 Fur" }, { text: "Shell", icon: "🐚 Shell" }, { text: "Feathers", icon: "🐦 Feathers" }], hint: "A bird's body is covered in feathers. A fish's body is covered in...?" },
+  { pair1: "Baker ➔ Bread", pair2: "Butcher ➔ ?", correct: "Meat", correctIcon: "🥩 Meat", distractors: [{ text: "Books", icon: "📚 Books" }, { text: "Vegetables", icon: "🥕 Vegetables" }, { text: "Shoes", icon: "👟 Shoes" }], hint: "A baker sells bread. A butcher sells...?" },
+  { pair1: "Painter ➔ Paintbrush", pair2: "Writer ➔ ?", correct: "Pencil", correctIcon: "✏️ Pencil", distractors: [{ text: "Hammer", icon: "🔨 Hammer" }, { text: "Spoon", icon: "🥄 Spoon" }, { text: "Camera", icon: "📷 Camera" }], hint: "A painter uses a paintbrush. A writer uses a...?" },
+  { pair1: "Rain ➔ Umbrella", pair2: "Cold Weather ➔ ?", correct: "Coat", correctIcon: "🧥 Coat", distractors: [{ text: "Swimsuit", icon: "🩱 Swimsuit" }, { text: "Sunglasses", icon: "🕶️ Sunglasses" }, { text: "Sandals", icon: "👡 Sandals" }], hint: "An umbrella keeps you dry in the rain. A coat keeps you warm in...?" },
+  { pair1: "Bee ➔ Honey", pair2: "Cow ➔ ?", correct: "Milk", correctIcon: "🥛 Milk", distractors: [{ text: "Eggs", icon: "🥚 Eggs" }, { text: "Wool", icon: "🧶 Wool" }, { text: "Honey", icon: "🍯 Honey" }], hint: "A bee makes honey. A cow makes...?" },
+  { pair1: "Chicken ➔ Eggs", pair2: "Sheep ➔ ?", correct: "Wool", correctIcon: "🧶 Wool", distractors: [{ text: "Milk", icon: "🥛 Milk", }, { text: "Honey", icon: "🍯 Honey" }, { text: "Eggs", icon: "🥚 Eggs" }], hint: "A chicken gives us eggs. A sheep gives us...?" },
+  { pair1: "Artist ➔ Paint", pair2: "Musician ➔ ?", correct: "Music", correctIcon: "🎵 Music", distractors: [{ text: "Food", icon: "🍎 Food" }, { text: "Books", icon: "📚 Books" }, { text: "Clothes", icon: "👕 Clothes" }], hint: "An artist makes paintings. A musician makes...?" },
+  { pair1: "Astronaut ➔ Spaceship", pair2: "Sailor ➔ ?", correct: "Ship", correctIcon: "🚢 Ship", distractors: [{ text: "Airplane", icon: "✈️ Airplane" }, { text: "Car", icon: "🚗 Car" }, { text: "Train", icon: "🚂 Train" }], hint: "An astronaut travels in a spaceship. A sailor travels on a...?" },
+  { pair1: "Banana ➔ Yellow", pair2: "Grape ➔ ?", correct: "Purple", correctIcon: "🍇 Purple", distractors: [{ text: "Red", icon: "🔴 Red" }, { text: "Orange", icon: "🟠 Orange" }, { text: "Blue", icon: "🔵 Blue" }], hint: "A banana is usually yellow. A grape is usually...?" },
+  { pair1: "Strawberry ➔ Red", pair2: "Broccoli ➔ ?", correct: "Green", correctIcon: "🥦 Green", distractors: [{ text: "Yellow", icon: "🟡 Yellow" }, { text: "Purple", icon: "🟣 Purple" }, { text: "Brown", icon: "🟤 Brown" }], hint: "A strawberry is red. Broccoli is...?" },
+  { pair1: "Hammer ➔ Nail", pair2: "Screwdriver ➔ ?", correct: "Screw", correctIcon: "🔩 Screw", distractors: [{ text: "Nail", icon: "🔨 Nail" }, { text: "Rope", icon: "🪢 Rope" }, { text: "Glue", icon: "🧴 Glue" }], hint: "A hammer is used to hit a nail. A screwdriver is used to turn a...?" },
+  { pair1: "Shovel ➔ Dig", pair2: "Broom ➔ ?", correct: "Sweep", correctIcon: "🧹 Sweep", distractors: [{ text: "Cut", icon: "✂️ Cut" }, { text: "Paint", icon: "🎨 Paint" }, { text: "Wash", icon: "🧼 Wash" }], hint: "A shovel is used to dig. A broom is used to...?" },
+  { pair1: "Thermometer ➔ Temperature", pair2: "Clock ➔ ?", correct: "Time", correctIcon: "⏰ Time", distractors: [{ text: "Weight", icon: "⚖️ Weight" }, { text: "Distance", icon: "📏 Distance" }, { text: "Sound", icon: "🔊 Sound" }], hint: "A thermometer measures temperature. A clock measures...?" },
+  { pair1: "Ear ➔ Hear", pair2: "Eye ➔ ?", correct: "See", correctIcon: "👀 See", distractors: [{ text: "Smell", icon: "👃 Smell" }, { text: "Taste", icon: "👅 Taste" }, { text: "Touch", icon: "✋ Touch" }], hint: "You use your ear to hear. You use your eye to...?" },
+  { pair1: "Nose ➔ Smell", pair2: "Tongue ➔ ?", correct: "Taste", correctIcon: "👅 Taste", distractors: [{ text: "Hear", icon: "👂 Hear" }, { text: "See", icon: "👀 See" }, { text: "Touch", icon: "✋ Touch" }], hint: "You use your nose to smell. You use your tongue to...?" },
+  { pair1: "Bat ➔ Cave", pair2: "Squirrel ➔ ?", correct: "Tree", correctIcon: "🌳 Tree", distractors: [{ text: "Pond", icon: "💧 Pond" }, { text: "Burrow", icon: "🕳️ Burrow" }, { text: "Web", icon: "🕸️ Web" }], hint: "A bat lives in a cave. A squirrel lives in a...?" },
+  { pair1: "Puzzle ➔ Pieces", pair2: "Book ➔ ?", correct: "Pages", correctIcon: "📄 Pages", distractors: [{ text: "Wheels", icon: "🛞 Wheels" }, { text: "Petals", icon: "🌸 Petals" }, { text: "Branches", icon: "🌿 Branches" }], hint: "A puzzle is made of pieces. A book is made of...?" },
+  { pair1: "Snowflake ➔ Cold", pair2: "Campfire ➔ ?", correct: "Hot", correctIcon: "🔥 Hot", distractors: [{ text: "Wet", icon: "💧 Wet" }, { text: "Soft", icon: "🧸 Soft" }, { text: "Quiet", icon: "🤫 Quiet" }], hint: "A snowflake feels cold. A campfire feels...?" },
+  { pair1: "Baby ➔ Crawl", pair2: "Bird ➔ ?", correct: "Fly", correctIcon: "🐦 Fly", distractors: [{ text: "Swim", icon: "🏊 Swim" }, { text: "Hop", icon: "🐇 Hop" }, { text: "Slither", icon: "🐍 Slither" }], hint: "A baby moves by crawling. A bird moves through the sky by...?" }
 ];
 
 function generateVerbalAnalogies(count) {
@@ -582,7 +606,19 @@ const RIDDLE_POOL = [
   { clues: "I have branches but no leaves, no fruit, and no flowers. Where am I?", correct: "A Bank", correctIcon: "🏦 Bank", distractors: [{ text: "A Tree", icon: "🌳 Tree" }, { text: "A Forest", icon: "🌲 Forest" }, { text: "A Garden", icon: "🌷 Garden" }], hint: "A bank has different branch locations, but they aren't the kind on a tree!" },
   { clues: "I can be cracked, made, told, and played. What am I?", correct: "A Joke", correctIcon: "😂 Joke", distractors: [{ text: "An Egg", icon: "🥚 Egg" }, { text: "A Game", icon: "🎮 Game" }, { text: "A Song", icon: "🎵 Song" }], hint: "Something funny that makes people laugh - you can crack one, make one up, tell it, or play a practical one!" },
   { clues: "I follow you all day but disappear at night. I get bigger or smaller depending on the sun.", correct: "Your Shadow", correctIcon: "👤 Shadow", distractors: [{ text: "Your Reflection", icon: "🪞 Reflection" }, { text: "A Ghost", icon: "👻 Ghost" }, { text: "A Cloud", icon: "☁️ Cloud" }], hint: "The sun makes this dark shape follow you on the ground, but it vanishes when it's dark outside." },
-  { clues: "I have teeth but cannot bite. I help fix your hair.", correct: "A Comb", correctIcon: "💇 Comb", distractors: [{ text: "A Shark", icon: "🦈 Shark" }, { text: "A Saw", icon: "🪚 Saw" }, { text: "A Zipper", icon: "🤐 Zipper" }], hint: "You run this through your hair every morning - it has little 'teeth' but doesn't bite!" }
+  { clues: "I have teeth but cannot bite. I help fix your hair.", correct: "A Comb", correctIcon: "💇 Comb", distractors: [{ text: "A Shark", icon: "🦈 Shark" }, { text: "A Saw", icon: "🪚 Saw" }, { text: "A Zipper", icon: "🤐 Zipper" }], hint: "You run this through your hair every morning - it has little 'teeth' but doesn't bite!" },
+  { clues: "I have a tail and a head, but no body at all. What am I?", correct: "A Coin", correctIcon: "🪙 Coin", distractors: [{ text: "A Snake", icon: "🐍 Snake" }, { text: "A Dog", icon: "🐶 Dog" }, { text: "A Key", icon: "🔑 Key" }], hint: "Flip me and I might land on 'heads' or 'tails'!" },
+  { clues: "I am tall when I am young, and I get shorter the longer I live.", correct: "A Candle", correctIcon: "🕯️ Candle", distractors: [{ text: "A Tree", icon: "🌳 Tree" }, { text: "A Person", icon: "🧑 Person" }, { text: "A Pencil", icon: "✏️ Pencil" }], hint: "As I burn, I slowly get shorter and shorter." },
+  { clues: "I have a neck but no head, and I wear a little cap.", correct: "A Bottle", correctIcon: "🍼 Bottle", distractors: [{ text: "A Shirt", icon: "👕 Shirt" }, { text: "A Giraffe", icon: "🦒 Giraffe" }, { text: "A Jacket", icon: "🧥 Jacket" }], hint: "You twist my cap off to drink what's inside me." },
+  { clues: "The more you feed me, the bigger I grow. But give me water, and I will disappear.", correct: "Fire", correctIcon: "🔥 Fire", distractors: [{ text: "A Plant", icon: "🌱 Plant" }, { text: "A Balloon", icon: "🎈 Balloon" }, { text: "A Fish", icon: "🐟 Fish" }], hint: "I am hot, bright, and I need to be put out with water." },
+  { clues: "I must be cracked open before you can use me for breakfast.", correct: "An Egg", correctIcon: "🥚 Egg", distractors: [{ text: "A Toy", icon: "🧸 Toy" }, { text: "A Window", icon: "🪟 Window" }, { text: "A Rule", icon: "📜 Rule" }], hint: "Chickens lay me, and I have a shell you crack open." },
+  { clues: "I am full of tiny holes, but I can still soak up water.", correct: "A Sponge", correctIcon: "🧽 Sponge", distractors: [{ text: "A Net", icon: "🥅 Net" }, { text: "A Bucket", icon: "🪣 Bucket" }, { text: "A Cup", icon: "🥤 Cup" }], hint: "You use me to clean dishes and wipe up spills." },
+  { clues: "What gets wetter and wetter the more it dries things off?", correct: "A Towel", correctIcon: "🧻 Towel", distractors: [{ text: "A Sponge", icon: "🧽 Sponge" }, { text: "Rain", icon: "🌧️ Rain" }, { text: "Soap", icon: "🧼 Soap" }], hint: "You dry your hands and body with me after a bath." },
+  { clues: "I have pages and a spine, but I am not alive. What has a thumb and four fingers, but is not a hand?", correct: "A Glove", correctIcon: "🧤 Glove", distractors: [{ text: "A Hand", icon: "✋ Hand" }, { text: "A Puppet", icon: "🧦 Puppet" }, { text: "A Sock", icon: "🧦 Sock" }], hint: "You wear me on a cold day to keep your fingers warm." },
+  { clues: "I can fly high without wings, and I can cry without eyes.", correct: "A Cloud", correctIcon: "☁️ Cloud", distractors: [{ text: "A Bird", icon: "🐦 Bird" }, { text: "A Kite", icon: "🪁 Kite" }, { text: "An Airplane", icon: "✈️ Airplane" }], hint: "I float in the sky, and sometimes rain falls from me." },
+  { clues: "What kind of room has no doors and no windows at all?", correct: "A Mushroom", correctIcon: "🍄 Mushroom", distractors: [{ text: "A Tent", icon: "⛺ Tent" }, { text: "A Cave", icon: "🪨 Cave" }, { text: "A Box", icon: "📦 Box" }], hint: "Listen closely to the word - it has 'room' hiding inside it!" },
+  { clues: "I have a ring, but I have no finger to wear it on.", correct: "A Telephone", correctIcon: "☎️ Telephone", distractors: [{ text: "A Tree", icon: "🌳 Tree" }, { text: "A Bell", icon: "🔔 Bell" }, { text: "A Crown", icon: "👑 Crown" }], hint: "When I 'ring', someone wants to talk to you!" },
+  { clues: "I have one eye, but I cannot see anything at all.", correct: "A Needle", correctIcon: "🪡 Needle", distractors: [{ text: "A Potato", icon: "🥔 Potato" }, { text: "A Storm", icon: "🌀 Storm" }, { text: "A Doll", icon: "🪆 Doll" }], hint: "You thread string through my tiny 'eye' to sew." }
 ];
 
 function generateRiddleQuestions(count) {
@@ -618,7 +654,17 @@ const RHYME_FAMILY_POOL = [
   { family: "ing", target: "King", rhymes: ["Ring", "Sing", "Wing"], nonRhymes: ["Cat", "Boat", "Star"] },
   { family: "oon", target: "Moon", rhymes: ["Spoon", "Balloon", "Raccoon"], nonRhymes: ["Cake", "Frog", "Chair"] },
   { family: "ight", target: "Light", rhymes: ["Night", "Bright", "Kite"], nonRhymes: ["Sun", "Frog", "Cup"] },
-  { family: "an", target: "Fan", rhymes: ["Can", "Man", "Pan"], nonRhymes: ["Book", "Star", "Moon"] }
+  { family: "an", target: "Fan", rhymes: ["Can", "Man", "Pan"], nonRhymes: ["Book", "Star", "Moon"] },
+  { family: "op", target: "Top", rhymes: ["Hop", "Mop", "Pop"], nonRhymes: ["Sun", "Cat", "Tree"] },
+  { family: "ell", target: "Bell", rhymes: ["Shell", "Well", "Smell"], nonRhymes: ["Frog", "Star", "Book"] },
+  { family: "ug", target: "Bug", rhymes: ["Rug", "Hug", "Mug"], nonRhymes: ["Cake", "Moon", "Fan"] },
+  { family: "ap", target: "Cap", rhymes: ["Map", "Nap", "Tap"], nonRhymes: ["Dog", "Star", "Ring"] },
+  { family: "ot", target: "Pot", rhymes: ["Hot", "Dot", "Not"], nonRhymes: ["Bee", "Cake", "King"] },
+  { family: "ail", target: "Snail", rhymes: ["Tail", "Mail", "Sail"], nonRhymes: ["Frog", "Sun", "Moon"] },
+  { family: "ock", target: "Sock", rhymes: ["Rock", "Clock", "Lock"], nonRhymes: ["Cake", "Bee", "Fan"] },
+  { family: "ish", target: "Fish", rhymes: ["Dish", "Wish", "Swish"], nonRhymes: ["Cat", "Sun", "Star"] },
+  { family: "ow", target: "Cow", rhymes: ["Wow", "How", "Now"], nonRhymes: ["Bee", "Cake", "Ring"] },
+  { family: "ine", target: "Nine", rhymes: ["Line", "Pine", "Shine"], nonRhymes: ["Sun", "Frog", "Cap"] }
 ];
 
 function generateRhymeQuestions(count) {
@@ -653,7 +699,8 @@ const MATRIX_COLORS = [
   { name: "Red", emoji: "🔴", hex: "#EF4444" }, { name: "Blue", emoji: "🔵", hex: "#3B82F6" },
   { name: "Green", emoji: "🟢", hex: "#10B981" }, { name: "Yellow", emoji: "🟡", hex: "#FBBF24" },
   { name: "Purple", emoji: "🟣", hex: "#8B5CF6" }, { name: "Orange", emoji: "🟠", hex: "#F97316" },
-  { name: "Pink", emoji: "🌸", hex: "#EC4899" }, { name: "Black", emoji: "⚫", hex: "#1F2937" }
+  { name: "Pink", emoji: "🌸", hex: "#EC4899" }, { name: "Black", emoji: "⚫", hex: "#1F2937" },
+  { name: "Brown", emoji: "🟤", hex: "#92400E" }, { name: "White", emoji: "⚪", hex: "#E5E7EB" }
 ];
 const MATRIX_SHAPES = ["circle", "square", "triangle", "star", "diamond", "heart"];
 
@@ -774,7 +821,8 @@ function generateOddOneOutQuestions(count) {
 const SIDES_MAP = [
   { name: "Triangle", sides: 3, icon: "🔺" }, { name: "Square", sides: 4, icon: "🟩" },
   { name: "Pentagon", sides: 5, icon: "🔷" }, { name: "Hexagon", sides: 6, icon: "⬡" },
-  { name: "Heptagon", sides: 7, icon: "🔶" }, { name: "Octagon", sides: 8, icon: "🛑" }
+  { name: "Heptagon", sides: 7, icon: "🔶" }, { name: "Octagon", sides: 8, icon: "🛑" },
+  { name: "Nonagon", sides: 9, icon: "9️⃣" }, { name: "Decagon", sides: 10, icon: "🔟" }
 ];
 
 function generateSidesAnalogyQuestions(count) {
@@ -1025,7 +1073,7 @@ function generateRotationQuestions(count) {
 // ==========================================
 // DEDUCTIVE LOGIC MYSTERY GENERATORS (logic_mysteries)
 // ==========================================
-const KID_NAME_POOL = ["Lily", "Noah", "Maya", "Sam", "Mia", "Theo", "Ana", "Ben", "Cora", "Dez", "Zoe", "Kai", "Wren", "Ivy", "Leo", "Nora", "Eli", "Ruby", "Max", "Grace"];
+const KID_NAME_POOL = ["Lily", "Noah", "Maya", "Sam", "Mia", "Theo", "Ana", "Ben", "Cora", "Dez", "Zoe", "Kai", "Wren", "Ivy", "Leo", "Nora", "Eli", "Ruby", "Max", "Grace", "Owen", "Luna", "Jax", "Ellie", "Finn", "Aria", "Milo", "Vera", "Rex", "Nia", "Hank", "Piper", "Cruz", "Skye", "Beau"];
 const LOGIC_ITEM_SETS = [
   { category: "pets", items: [{ name: "Cat", icon: "🐱" }, { name: "Dog", icon: "🐶" }, { name: "Bunny", icon: "🐰" }] },
   { category: "fruits", items: [{ name: "Apple", icon: "🍎" }, { name: "Banana", icon: "🍌" }, { name: "Grape", icon: "🍇" }] },
@@ -1033,7 +1081,12 @@ const LOGIC_ITEM_SETS = [
   { category: "shapes", items: [{ name: "Circle", icon: "⭕" }, { name: "Square", icon: "🟩" }, { name: "Triangle", icon: "🔺" }] },
   { category: "sports", items: [{ name: "Soccer", icon: "⚽" }, { name: "Swimming", icon: "🏊" }, { name: "Dancing", icon: "💃" }] },
   { category: "ice cream flavors", items: [{ name: "Chocolate", icon: "🍫" }, { name: "Vanilla", icon: "🍦" }, { name: "Strawberry", icon: "🍓" }] },
-  { category: "backpacks", items: [{ name: "Pink", icon: "🎒" }, { name: "Purple", icon: "🎒" }, { name: "Yellow", icon: "🎒" }] }
+  { category: "backpacks", items: [{ name: "Pink", icon: "🎒" }, { name: "Purple", icon: "🎒" }, { name: "Yellow", icon: "🎒" }] },
+  { category: "vehicles", items: [{ name: "Car", icon: "🚗" }, { name: "Bike", icon: "🚲" }, { name: "Boat", icon: "⛵" }] },
+  { category: "hats", items: [{ name: "Cap", icon: "🧢" }, { name: "Crown", icon: "👑" }, { name: "Top Hat", icon: "🎩" }] },
+  { category: "musical instruments", items: [{ name: "Piano", icon: "🎹" }, { name: "Guitar", icon: "🎸" }, { name: "Drum", icon: "🥁" }] },
+  { category: "school supplies", items: [{ name: "Pencil", icon: "✏️" }, { name: "Crayon", icon: "🖍️" }, { name: "Scissors", icon: "✂️" }] },
+  { category: "weather", items: [{ name: "Sunny", icon: "☀️" }, { name: "Rainy", icon: "🌧️" }, { name: "Snowy", icon: "❄️" }] }
 ];
 
 function generateLogicGridQuestions(count) {
@@ -1119,7 +1172,12 @@ const COMPARE_OBJECT_SETS = [
   { objects: [{ name: "Watermelon", icon: "🍉" }, { name: "Apple", icon: "🍎" }, { name: "Grape", icon: "🍇" }], attribute: "heavy" },
   { objects: [{ name: "Skyscraper", icon: "🏙️" }, { name: "House", icon: "🏠" }, { name: "Doghouse", icon: "🐕‍🦺" }], attribute: "tall" },
   { objects: [{ name: "Giraffe", icon: "🦒" }, { name: "Horse", icon: "🐴" }, { name: "Rabbit", icon: "🐇" }], attribute: "tall" },
-  { objects: [{ name: "Truck", icon: "🚚" }, { name: "Bicycle", icon: "🚲" }, { name: "Skateboard", icon: "🛹" }], attribute: "heavy" }
+  { objects: [{ name: "Truck", icon: "🚚" }, { name: "Bicycle", icon: "🚲" }, { name: "Skateboard", icon: "🛹" }], attribute: "heavy" },
+  { objects: [{ name: "Mountain", icon: "⛰️" }, { name: "Hill", icon: "🌄" }, { name: "Anthill", icon: "🐜" }], attribute: "tall" },
+  { objects: [{ name: "Whale", icon: "🐋" }, { name: "Shark", icon: "🦈" }, { name: "Goldfish", icon: "🐠" }], attribute: "heavy" },
+  { objects: [{ name: "Adult", icon: "🧑" }, { name: "Child", icon: "🧒" }, { name: "Baby", icon: "👶" }], attribute: "tall" },
+  { objects: [{ name: "Bus", icon: "🚌" }, { name: "Car", icon: "🚗" }, { name: "Scooter", icon: "🛴️" }], attribute: "heavy" },
+  { objects: [{ name: "Redwood Tree", icon: "🌲" }, { name: "Bush", icon: "🌳" }, { name: "Flower", icon: "🌷" }], attribute: "tall" }
 ];
 
 function generateComparativeOrderQuestions(count) {
@@ -1162,12 +1220,16 @@ function generateComparativeOrderQuestions(count) {
 const LIVING_POOL = [
   { name: "Tree", icon: "🌳" }, { name: "Dog", icon: "🐶" }, { name: "Flower", icon: "🌷" }, { name: "Fish", icon: "🐟" },
   { name: "Bird", icon: "🐦" }, { name: "Butterfly", icon: "🦋" }, { name: "Grass", icon: "🌱" }, { name: "Cat", icon: "🐱" },
-  { name: "Mushroom", icon: "🍄" }, { name: "Turtle", icon: "🐢" }
+  { name: "Mushroom", icon: "🍄" }, { name: "Turtle", icon: "🐢" }, { name: "Spider", icon: "🕷️" }, { name: "Snail", icon: "🐌" },
+  { name: "Ant", icon: "🐜" }, { name: "Frog", icon: "🐸" }, { name: "Bee", icon: "🐝" }, { name: "Squirrel", icon: "🐿️" },
+  { name: "Cactus", icon: "🌵" }, { name: "Mouse", icon: "🐭" }
 ];
 const NONLIVING_POOL = [
   { name: "Rock", icon: "🪨" }, { name: "Chair", icon: "🪑" }, { name: "Car", icon: "🚗" }, { name: "Cup", icon: "🥤" },
   { name: "Pencil", icon: "✏️" }, { name: "Cloud", icon: "☁️" }, { name: "Computer", icon: "💻" }, { name: "Ball", icon: "⚽" },
-  { name: "Table", icon: "🪵" }, { name: "Book", icon: "📖" }
+  { name: "Table", icon: "🪵" }, { name: "Book", icon: "📖" }, { name: "Balloon", icon: "🎈" }, { name: "Umbrella", icon: "☂️" },
+  { name: "Bicycle", icon: "🚲" }, { name: "Backpack", icon: "🎒" }, { name: "Lamp", icon: "💡" }, { name: "Key", icon: "🔑" },
+  { name: "Teddy Bear", icon: "🧸" }, { name: "Clock", icon: "🕐" }
 ];
 
 function generateLivingNonlivingQuestions(count) {
@@ -1217,8 +1279,11 @@ function generateLivingNonlivingQuestions(count) {
 
 const MATTER_POOL = [
   { name: "Milk", icon: "🥛", state: "liquid" }, { name: "Juice", icon: "🧃", state: "liquid" }, { name: "Water", icon: "💧", state: "liquid" },
+  { name: "Soup", icon: "🍲", state: "liquid" }, { name: "Honey", icon: "🍯", state: "liquid" },
   { name: "Rock", icon: "🪨", state: "solid" }, { name: "Ice Cube", icon: "🧊", state: "solid" }, { name: "Wooden Block", icon: "🪵", state: "solid" }, { name: "Book", icon: "📖", state: "solid" },
-  { name: "Steam", icon: "💨", state: "gas" }, { name: "Air in a Balloon", icon: "🎈", state: "gas" }, { name: "Bubbles", icon: "🫧", state: "gas" }
+  { name: "Chair", icon: "🪑", state: "solid" }, { name: "Apple", icon: "🍎", state: "solid" },
+  { name: "Steam", icon: "💨", state: "gas" }, { name: "Air in a Balloon", icon: "🎈", state: "gas" }, { name: "Bubbles", icon: "🫧", state: "gas" },
+  { name: "Smoke", icon: "💨", state: "gas" }, { name: "Helium in a Party Balloon", icon: "🎈", state: "gas" }
 ];
 
 function generateStateOfMatterQuestions(count) {
@@ -1254,7 +1319,9 @@ const LIFE_CYCLES = [
   { animal: "Frog", stages: [{ name: "Egg", icon: "🥚" }, { name: "Tadpole", icon: "🐟" }, { name: "Froglet", icon: "🐸" }, { name: "Frog", icon: "🐸" }] },
   { animal: "Chicken", stages: [{ name: "Egg", icon: "🥚" }, { name: "Chick", icon: "🐣" }, { name: "Young Hen/Rooster", icon: "🐓" }, { name: "Adult Chicken", icon: "🐔" }] },
   { animal: "Ladybug", stages: [{ name: "Egg", icon: "🥚" }, { name: "Larva", icon: "🐛" }, { name: "Pupa", icon: "🛖" }, { name: "Ladybug", icon: "🐞" }] },
-  { animal: "Plant", stages: [{ name: "Seed", icon: "🌰" }, { name: "Sprout", icon: "🌱" }, { name: "Seedling", icon: "🌿" }, { name: "Full Grown Plant", icon: "🌳" }] }
+  { animal: "Plant", stages: [{ name: "Seed", icon: "🌰" }, { name: "Sprout", icon: "🌱" }, { name: "Seedling", icon: "🌿" }, { name: "Full Grown Plant", icon: "🌳" }] },
+  { animal: "Bee", stages: [{ name: "Egg", icon: "🥚" }, { name: "Larva", icon: "🐛" }, { name: "Pupa", icon: "🛖" }, { name: "Bee", icon: "🐝" }] },
+  { animal: "Ant", stages: [{ name: "Egg", icon: "🥚" }, { name: "Larva", icon: "🐛" }, { name: "Pupa", icon: "🛖" }, { name: "Ant", icon: "🐜" }] }
 ];
 
 function generateLifeCycleQuestions(count) {
@@ -1291,7 +1358,7 @@ function generateLifeCycleQuestions(count) {
   return out;
 }
 
-const ANIMAL_NEEDS_POOL = ["Dog", "Cat", "Bird", "Fish", "Rabbit", "Hamster", "Horse", "Cow"];
+const ANIMAL_NEEDS_POOL = ["Dog", "Cat", "Bird", "Fish", "Rabbit", "Hamster", "Horse", "Cow", "Turtle", "Duck", "Sheep", "Goat", "Pig", "Chicken"];
 const SILLY_NEED_DISTRACTORS = [
   "Only Toys and Video Games", "Only Sunlight and No Food", "Nothing At All", "Only Music and Candy",
   "Only Ice and Snow", "Only Bright Lights"
@@ -1356,7 +1423,10 @@ const SINK_FLOAT_POOL = [
   { name: "Rock", icon: "🪨", sinks: true }, { name: "Wooden Block", icon: "🪵", sinks: false },
   { name: "Coin", icon: "🪙", sinks: true }, { name: "Leaf", icon: "🍃", sinks: false },
   { name: "Feather", icon: "🪶", sinks: false }, { name: "Key", icon: "🔑", sinks: true },
-  { name: "Balloon (air-filled)", icon: "🎈", sinks: false }, { name: "Marble", icon: "⚪", sinks: true }
+  { name: "Balloon (air-filled)", icon: "🎈", sinks: false }, { name: "Marble", icon: "⚪", sinks: true },
+  { name: "Plastic Toy Boat", icon: "🚤", sinks: false }, { name: "Ice Cube", icon: "🧊", sinks: false },
+  { name: "Paperclip", icon: "📎", sinks: true }, { name: "Cotton Ball", icon: "☁️", sinks: false },
+  { name: "Brick", icon: "🧱", sinks: true }, { name: "Golf Ball", icon: "⚪", sinks: true }
 ];
 
 function generateSinkFloatQuestions(count) {
@@ -1395,52 +1465,52 @@ function generateSinkFloatQuestions(count) {
 function generateAllProceduralQuestions() {
   return [
     // Math (huge combinatorial fact space)
-    ...generateAdditionFacts(45),
-    ...generateSubtractionFacts(45),
-    ...generateDoublesFacts(15),
-    ...generateNearDoublesFacts(15),
-    ...generateMissingAddendWordProblems(20),
-    ...generateTwoDigitAddition(20),
-    ...generateSkipCountingFacts(25),
-    ...generateComparisonFacts(25),
-    ...generateThreeNumberOrdering(15),
-    ...generateOrdinalFacts(12),
-    ...generateTimeTellingFacts(20),
-    ...generateMoneyFacts(25),
-    ...generatePlaceValueFacts(20),
-    ...generateBalanceFacts(25),
+    ...generateAdditionFacts(90),
+    ...generateSubtractionFacts(90),
+    ...generateDoublesFacts(10),
+    ...generateNearDoublesFacts(9),
+    ...generateMissingAddendWordProblems(40),
+    ...generateTwoDigitAddition(40),
+    ...generateSkipCountingFacts(60),
+    ...generateComparisonFacts(60),
+    ...generateThreeNumberOrdering(40),
+    ...generateOrdinalFacts(10),
+    ...generateTimeTellingFacts(24),
+    ...generateMoneyFacts(50),
+    ...generatePlaceValueFacts(50),
+    ...generateBalanceFacts(60),
 
     // Verbal
     ...generateVerbalAnalogies(VERBAL_ANALOGY_POOL.length),
     ...generateRiddleQuestions(RIDDLE_POOL.length),
-    ...generateRhymeQuestions(25),
+    ...generateRhymeQuestions(RHYME_FAMILY_POOL.length),
 
     // Matrix / Nonverbal Reasoning
-    ...generateColorCycleQuestions(25),
+    ...generateColorCycleQuestions(50),
     ...generateSizeCycleQuestions(20),
-    ...generateOddOneOutQuestions(25),
-    ...generateSidesAnalogyQuestions(15),
-    ...generateGrowingDotsQuestions(20),
-    ...generateMatrix2x2Questions(30),
+    ...generateOddOneOutQuestions(50),
+    ...generateSidesAnalogyQuestions(30),
+    ...generateGrowingDotsQuestions(40),
+    ...generateMatrix2x2Questions(60),
 
     // Spatial & Visual
-    ...generatePaperFoldQuestions(20),
-    ...generateBlockCountQuestions(25),
-    ...generateMirrorQuestions(20),
-    ...generateRotationQuestions(20),
+    ...generatePaperFoldQuestions(40),
+    ...generateBlockCountQuestions(50),
+    ...generateMirrorQuestions(40),
+    ...generateRotationQuestions(40),
 
     // Deductive Logic Mysteries
-    ...generateLogicGridQuestions(30),
-    ...generateOrderSequenceQuestions(25),
-    ...generateComparativeOrderQuestions(20),
+    ...generateLogicGridQuestions(60),
+    ...generateOrderSequenceQuestions(50),
+    ...generateComparativeOrderQuestions(40),
 
     // Science Explorer
-    ...generateLivingNonlivingQuestions(20),
-    ...generateStateOfMatterQuestions(20),
-    ...generateLifeCycleQuestions(15),
-    ...generateAnimalNeedsQuestions(15),
+    ...generateLivingNonlivingQuestions(40),
+    ...generateStateOfMatterQuestions(40),
+    ...generateLifeCycleQuestions(28),
+    ...generateAnimalNeedsQuestions(28),
     ...generateSeasonQuestions(15),
-    ...generateSinkFloatQuestions(15)
+    ...generateSinkFloatQuestions(32)
   ];
 }
 

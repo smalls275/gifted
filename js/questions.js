@@ -1475,3 +1475,17 @@ const QUESTION_BANK = [
 if (typeof generateAllProceduralQuestions === "function") {
   QUESTION_BANK.push(...generateAllProceduralQuestions());
 }
+
+// Safety net: guarantee Lily never sees the exact same question prompt twice, even if a
+// generator's pool is small enough to produce a coincidental duplicate.
+(function dedupeQuestionBankByPrompt() {
+  const seenPrompts = new Set();
+  for (let i = QUESTION_BANK.length - 1; i >= 0; i--) {
+    const key = QUESTION_BANK[i].prompt;
+    if (seenPrompts.has(key)) {
+      QUESTION_BANK.splice(i, 1);
+    } else {
+      seenPrompts.add(key);
+    }
+  }
+})();
