@@ -703,7 +703,7 @@ class App {
           this.updateHeaderStats();
         } else {
           sounds.playTryAgain();
-          sounds.speak("You need more money! Solve more puzzles or dance with Danny Go to earn more!");
+          sounds.speak("You need more money! Solve more puzzles to earn more!");
         }
       });
     });

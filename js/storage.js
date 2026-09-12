@@ -136,7 +136,6 @@ class StorageManager {
   recordDanceCompleted(videoId) {
     this.state.dancesCompleted += 1;
     this.state.starsSinceLastDance = 0;
-    this.state.profile.moneyCents += 100; // Reward $1.00 for dancing!
     this.save();
   }
 

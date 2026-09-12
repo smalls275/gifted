@@ -48,7 +48,7 @@ class DannyGoRewards {
 
         <div class="dance-stats-pill">
           <span>🏆 Total Dance Breaks Completed: <strong>${dancesDone}</strong></span>
-          <span>💰 Dancing Bonus: +$1.00 per Dance!</span>
+          <span>🎉 Your Reward for Hard Work!</span>
         </div>
       </div>
 
@@ -117,11 +117,11 @@ class DannyGoRewards {
           <div class="dance-modal-footer">
             <div class="dance-timer-card">
               <span class="timer-emoji">⏱️</span>
-              <span>Dance until the song ends, then claim your +$1.00 reward!</span>
+              <span>Dance until the song ends, then celebrate your reward!</span>
             </div>
             <div class="dance-action-buttons">
               <button class="btn-complete-dance" id="btn-finish-dance">
-                🎉 I Finished Dancing & Moving! (+5 💎)
+                🎉 I Finished Dancing & Moving!
               </button>
               <button class="btn-close-dance" id="btn-close-dance-modal">
                 Back to Puzzles
@@ -145,7 +145,7 @@ class DannyGoRewards {
     finishBtn.addEventListener('click', () => {
       this.storage.recordDanceCompleted(video.id);
       this.sounds.playStarCollect();
-      this.sounds.speak("Awesome dancing, Lily! You earned one dollar!");
+      this.sounds.speak("Awesome dancing, Lily! Great job moving your body!");
       if (window.confetti) {
         window.confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
       }
