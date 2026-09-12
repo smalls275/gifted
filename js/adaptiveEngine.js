@@ -121,9 +121,12 @@ class AdaptiveEngine {
       matchedDifficulty = candidates;
     }
 
-    // Avoid immediately repeating the last answered question
+    // Avoid repeating anything Lily has seen recently (rolling window), not just the last one.
+    // Fall back progressively so a small category never returns an empty pool.
+    const recentIds = new Set(state.recentQuestionIds || []);
     const lastAnsweredId = state.lastAnsweredId;
-    let pool = matchedDifficulty.filter(q => q.id !== lastAnsweredId);
+    let pool = matchedDifficulty.filter(q => !recentIds.has(q.id));
+    if (pool.length === 0) pool = matchedDifficulty.filter(q => q.id !== lastAnsweredId);
     if (pool.length === 0) pool = matchedDifficulty;
 
     const selected = pool[Math.floor(Math.random() * pool.length)] || this.questionBank[0];

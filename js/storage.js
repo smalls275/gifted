@@ -32,6 +32,7 @@ class StorageManager {
       starsSinceLastDance: 0,
       spacedRepetitionQueue: [],
       lastAnsweredId: null,
+      recentQuestionIds: [],
       lastActiveDate: new Date().toISOString().split('T')[0],
       parentSettings: {
         voiceNarration: true,
@@ -94,6 +95,11 @@ class StorageManager {
   recordAnswer(questionId, isCorrect) {
     this.state.totalSolved += 1;
     this.state.lastAnsweredId = questionId;
+
+    // Track a rolling window of recently served questions so Smart Play never loops back too soon
+    const recent = (this.state.recentQuestionIds || []).filter(id => id !== questionId);
+    recent.push(questionId);
+    this.state.recentQuestionIds = recent.slice(-30);
 
     if (isCorrect) {
       this.state.totalCorrect += 1;
