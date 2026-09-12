@@ -48,7 +48,7 @@ const CONFIG = {
     moneyCents: 125,
     streak: 1,
     level: 1,
-    dannyGoThreshold: 5 // Stars required to unlock a Danny Go! dance party break
+    dannyGoThreshold: 20 // Stars required to unlock a Danny Go! dance party break
   },
   
   categories: [

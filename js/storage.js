@@ -36,7 +36,7 @@ class StorageManager {
       parentSettings: {
         voiceNarration: true,
         soundEffects: true,
-        dannyGoEveryNStars: 5,
+        dannyGoEveryNStars: 20,
         theme: 'magical_candy'
       }
     };
@@ -135,12 +135,12 @@ class StorageManager {
   }
 
   isDannyGoReady() {
-    const threshold = this.state.parentSettings.dannyGoEveryNStars || 5;
+    const threshold = this.state.parentSettings.dannyGoEveryNStars || 20;
     return this.state.starsSinceLastDance >= threshold;
   }
 
   getDanceProgress() {
-    const threshold = this.state.parentSettings.dannyGoEveryNStars || 5;
+    const threshold = this.state.parentSettings.dannyGoEveryNStars || 20;
     return {
       current: Math.min(this.state.starsSinceLastDance, threshold),
       target: threshold,
