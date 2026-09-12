@@ -17,30 +17,32 @@ This application prepares Lily for the Stafford County Public Schools (SCPS) **G
   * **Level 4 (Super Genius / 99th Percentile CogAT):** Complex relational analogies & matrix transformations.
 * **Weak-Point Focusing:** Intelligently analyzes Lily's response accuracy across all domains, automatically routing extra practice to areas needing reinforcement.
 * **Spaced Repetition Review:** Re-tests previously missed concepts at optimal intervals.
+* **No-Repeat Question Engine:** A huge bank of 1,500+ curated and procedurally-generated questions (40+ generators across math, verbal, matrix, spatial, logic, and science) with a rolling exclusion window so Lily never sees the same question looping back too soon.
 * **Composite GATE Readiness Score:** Real-time percentage indicator of readiness for SCPS gifted screening.
 
 ### 2. 💃 Danny Go! Dance Party Rewards
 * **Active Screen-Time Balance:** Solves the sedentary screen problem by rewarding academic milestones with Danny Go dance breaks.
-* **Energy Charge Meter:** Every 5 stars earned unlocks a Danny Go! Dance Party.
+* **Energy Charge Meter:** Every 20 stars earned unlocks a Danny Go! Dance Party.
 * **Curated Video Dance Player:** Embeds high-energy Danny Go! favorites:
-  * 🌋 *The Floor is Lava!*
+  * 🌋 *The Floor Is Lava!*
   * 🦍 *Gorilla Smash!*
-  * ❄️ *Freeze Dance!*
+  * ❄️ *The Ice King Freeze Dance!*
   * 🐛 *The Wiggle Dance!*
-  * 🔥❄️ *Fire and Ice!*
+  * 🔥❄️ *Fire and Ice Freeze Dance!*
   * 🤖 *The Robot Dance!*
-  * 🦖 *Digging for Dinosaurs!*
-  * 🚀 *Space Party Blastoff!*
-* **Active Completion Bonus:** Lily earns +5 shiny Gems every time she completes a dance break!
+  * 🦖 *The Dinosaur Dance!*
+  * 🚀 *Space Race! Planet Dance*
+* **Pure Reward, No Strings Attached:** Dance breaks don't cost or grant any in-game money — they're purely a fun movement break earned by completing puzzles.
 
 ### 3. 🔊 Kid-Friendly Voice Narration (TTS) & Web Audio
 * **Built-in Text-to-Speech:** Automatically reads questions, clues, and feedback out loud with child-friendly phrasing.
 * **Synthesized Audio:** Harmonious arpeggio chimes and encouraging sounds without harsh buzzers.
 
 ### 4. 🏆 Gamification, Stickers & Pet Companion
-* **Sparkle the Pet Companion:** Custom interactive pet (Unicorn, Puppy, Bunny, Kitten, Dragon) that offers encouraging affirmations and celebrates victories.
-* **24 Collectible Badges:** Unlocked for streaks, topic mastery, and dance milestones.
-* **Magical Sticker Studio:** Exchange earned gems for fun stickers and decorate a personal star display board.
+* **Sparkle the Pet Companion:** Custom interactive pet (Sparkle the Unicorn, Bowie the Star Pup, Pip the Hop Bunny, Luna the Star Cat, or Nova the Baby Dragon) that offers encouraging affirmations and celebrates victories.
+* **64 Collectible Trophies:** Unlocked for streaks, per-domain mastery tiers, total puzzles solved, dance milestones, and sticker collecting.
+* **Real-Money Economy:** Correct answers, streaks, and trophies earn real money (shown as dollars & cents) instead of an abstract currency — a gentle, natural way to practice counting money.
+* **Magical Sticker Studio:** Spend earned money on 112 collectible stickers and decorate a personal star display board.
 
 ---
 
@@ -61,23 +63,26 @@ The game is mapped to the exact educational and gifted identification standards 
 
 ## 📱 Cross-Platform Device Support
 
-The application is built with standard Web technologies (HTML5, CSS3, ES Modules, Web Audio API, Web Speech API):
+The application is built with standard Web technologies (HTML5, CSS3, vanilla JavaScript, Web Audio API, Web Speech API):
 * **Laptops & Desktops:** Chrome, Edge, Safari, Firefox.
 * **iPads & Tablets:** Large touch targets, responsive touch controls.
 * **Smartphones (iPhone & Android):** Mobile-first layouts with single-hand reachability.
-* **Zero Dependencies / No Build Step Required:** Double click `index.html` to run anywhere.
+* **Zero Dependencies / No Build Step Required:** Double click `index.html` to run directly from disk — plain `<script>` tags are used instead of ES modules specifically so it works over `file://` without a server.
 
 ---
 
 ## 🚀 Deployment to GitHub Pages
 
-This repository is pushed to [github.com/smalls275/gifted](https://github.com/smalls275/gifted) and is pre-configured with a GitHub Actions workflow in `.github/workflows/deploy.yml` for automated GitHub Pages hosting.
+This repository is pushed to [github.com/smalls275/gifted](https://github.com/smalls275/gifted) and is live at:
+`https://smalls275.github.io/gifted/`
 
-### To finish enabling GitHub Pages (one-time, manual step):
+It deploys automatically via GitHub's built-in branch-based Pages hosting — no custom build step or Actions workflow is needed since this is a static site with zero dependencies.
+
+### One-time setup (if re-creating this repo):
 1. Go to **Settings** > **Pages** on the [gifted repository](https://github.com/smalls275/gifted/settings/pages).
-2. Under **Build and deployment** > **Source**, select **GitHub Actions**.
-3. The app will then be live at:
-   `https://smalls275.github.io/gifted/`
+2. Under **Build and deployment** > **Source**, select **Deploy from a branch**.
+3. Choose the `main` branch and `/ (root)` folder.
+4. Every push to `main` redeploys automatically, typically within 15-45 seconds.
 
 ---
 
