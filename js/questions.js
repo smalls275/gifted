@@ -1468,6 +1468,285 @@ const QUESTION_BANK = [
     correctIndex: 0,
     hint: "Chocolate is a solid that is sensitive to heat - what happens to solids like chocolate or ice when they get warm?",
     explanation: "Heat causes solid chocolate to melt into a soft, gooey liquid, just like ice melting into water!"
+  },
+
+  // ==========================================
+  // 12. EXPANSION PACK - CURATED GIFTED CHALLENGES
+  // ==========================================
+  {
+    id: "math_08",
+    category: "math_logic",
+    standard: "SCPS Gifted - Two-Step Comparison Word Problem",
+    difficulty: 4,
+    prompt: "Lily has 6 stickers. Noah has 3 MORE stickers than Lily. How many stickers do Lily and Noah have TOGETHER?",
+    visualType: "word_problem",
+    visualData: { start: 6, gave: "6 + 3" },
+    options: [
+      { text: "15 stickers (6 + 9)", icon: "✨ 15" },
+      { text: "9 stickers", icon: "✨ 9" },
+      { text: "12 stickers", icon: "✨ 12" },
+      { text: "3 stickers", icon: "✨ 3" }
+    ],
+    correctIndex: 0,
+    hint: "First figure out Noah's stickers: 6 + 3 = 9. THEN add Lily's 6 and Noah's 9 together!",
+    explanation: "Noah has 6 + 3 = 9 stickers. Together: 6 + 9 = 15 stickers!"
+  },
+  {
+    id: "math_09",
+    category: "math_logic",
+    standard: "CogAT Quant - Number Puzzle (Equal Trade)",
+    difficulty: 4,
+    prompt: "In the puzzle, 🍎 + 🍎 = 8, and 🍎 + 🍌 = 11. What is the Banana worth?",
+    visualType: "balance_scale",
+    visualData: { left: "🍎 + 🍌", right: "11" },
+    options: [
+      { text: "7 (because the Apple is 4)", icon: "🍌 7" },
+      { text: "4", icon: "🍌 4" },
+      { text: "8", icon: "🍌 8" },
+      { text: "3", icon: "🍌 3" }
+    ],
+    correctIndex: 0,
+    hint: "If two apples make 8, one apple is 4. Now solve 4 + 🍌 = 11!",
+    explanation: "Apple + Apple = 8 means each Apple = 4. Then 4 + Banana = 11, so Banana = 7!"
+  },
+  {
+    id: "math_10",
+    category: "math_logic",
+    standard: "VA SOL 1.13 - Making Change Logic",
+    difficulty: 4,
+    prompt: "A sticker costs 15¢. Lily pays with 2 dimes (20¢). How much change should she get back?",
+    visualType: "coins",
+    visualData: { coins: ["Dime (10¢)", "Dime (10¢)", "Sticker costs 15¢"] },
+    options: [
+      { text: "5¢ (one nickel)", icon: "🪙 5¢" },
+      { text: "10¢", icon: "🪙 10¢" },
+      { text: "15¢", icon: "🪙 15¢" },
+      { text: "No change", icon: "❌ 0¢" }
+    ],
+    correctIndex: 0,
+    hint: "She paid 20¢ for something that costs 15¢. Count up from 15 to 20!",
+    explanation: "20¢ - 15¢ = 5¢ change, which is exactly one nickel!"
+  },
+  {
+    id: "verb_15",
+    category: "verbal_detective",
+    standard: "CogAT Verbal - Double Analogy Challenge",
+    difficulty: 4,
+    prompt: "Finger is to Hand as Petal is to ___?",
+    visualType: "analogy",
+    visualData: { pair1: "Finger ➔ Hand", pair2: "Petal ➔ ?" },
+    options: [
+      { text: "Flower", icon: "🌸 Flower" },
+      { text: "Garden", icon: "🏡 Garden" },
+      { text: "Leaf", icon: "🍃 Leaf" },
+      { text: "Bee", icon: "🐝 Bee" }
+    ],
+    correctIndex: 0,
+    hint: "A finger is one small part of a whole hand. A petal is one small part of a whole...?",
+    explanation: "A finger is part of a hand, and a petal is part of a flower - both are part-to-whole pairs!"
+  },
+  {
+    id: "verb_16",
+    category: "verbal_detective",
+    standard: "CogAT Verbal - Idiom & Figurative Language",
+    difficulty: 4,
+    prompt: "Grandma says, 'Hold your horses!' when Lily runs to open presents. What does Grandma really mean?",
+    visualType: "riddle",
+    visualData: { clues: ["No real horses around", "A saying grown-ups use"] },
+    options: [
+      { text: "Wait and be patient", icon: "⏳ Wait" },
+      { text: "Go find some horses", icon: "🐴 Horses" },
+      { text: "Run even faster", icon: "⚡ Faster" },
+      { text: "Hold something heavy", icon: "🏋️ Heavy" }
+    ],
+    correctIndex: 0,
+    hint: "It's an idiom - a saying that doesn't mean exactly what the words say. Think: what would stopping horses make you do?",
+    explanation: "'Hold your horses' is an idiom that means 'slow down and be patient'!"
+  },
+  {
+    id: "verb_17",
+    category: "verbal_detective",
+    standard: "VA SOL 1.9 - Story Inference Detective",
+    difficulty: 3,
+    prompt: "Read the clues: Maya put on her swimsuit, grabbed a towel and sunscreen, and got in the car. Where is Maya most likely going?",
+    visualType: "riddle",
+    visualData: { clues: ["Swimsuit", "Towel", "Sunscreen"] },
+    options: [
+      { text: "To the pool or beach", icon: "🏊 Pool" },
+      { text: "To school", icon: "🏫 School" },
+      { text: "To bed", icon: "🛏️ Bed" },
+      { text: "To the library", icon: "📚 Library" }
+    ],
+    correctIndex: 0,
+    hint: "Think about where people wear swimsuits and need towels and sunscreen!",
+    explanation: "A swimsuit, towel, and sunscreen are all things you bring to swim outside - the pool or beach!"
+  },
+  {
+    id: "mat_21",
+    category: "matrix_reasoning",
+    standard: "CogAT Nonverbal - Double Rule Matrix (Shape + Count)",
+    difficulty: 4,
+    prompt: "Tricky double-rule puzzle! Top row: 1 red circle ➔ 2 red squares. Bottom row: 1 blue circle ➔ ? (BOTH the shape and the number change!)",
+    visualType: "matrix_2x2",
+    visualData: {
+      tl: { desc: "1 red circle" },
+      tr: { desc: "2 red squares" },
+      bl: { desc: "1 blue circle" },
+      br: "?"
+    },
+    options: [
+      { text: "2 Blue Squares", icon: "🟦🟦" },
+      { text: "1 Blue Square", icon: "🟦" },
+      { text: "2 Blue Circles", icon: "🔵🔵" },
+      { text: "2 Red Squares", icon: "🟥🟥" }
+    ],
+    correctIndex: 0,
+    hint: "TWO things change across the row: circle becomes square AND one becomes two. Keep the bottom row's blue color!",
+    explanation: "Across the row, the circle turns into squares AND the count doubles from 1 to 2. So 1 blue circle becomes 2 blue squares!"
+  },
+  {
+    id: "mat_22",
+    category: "matrix_reasoning",
+    standard: "NNAT3 - Missing Middle Pattern",
+    difficulty: 3,
+    prompt: "A piece fell out of the MIDDLE of this pattern: 🔴 🔵 🔴 ❓ 🔴 🔵 🔴. What belongs in the empty spot?",
+    visualType: "sequence",
+    visualData: { items: ["🔴", "🔵", "🔴", "❓", "🔴", "🔵", "🔴"] },
+    options: [
+      { text: "Blue Circle", icon: "🔵" },
+      { text: "Red Circle", icon: "🔴" },
+      { text: "Green Circle", icon: "🟢" },
+      { text: "Nothing", icon: "🚫" }
+    ],
+    correctIndex: 0,
+    hint: "The pattern alternates Red, Blue, Red, Blue... check the neighbors on BOTH sides of the hole!",
+    explanation: "The alternating pattern needs Blue between the two Reds: Red, Blue, Red, BLUE, Red, Blue, Red!"
+  },
+  {
+    id: "spat_13",
+    category: "spatial_folding",
+    standard: "NNAT3 - Perspective: Side View",
+    difficulty: 4,
+    prompt: "Lily looks at an ice cream cone standing point-down, from the SIDE. What flat shape does its outline look like?",
+    visualType: "classification",
+    visualData: { shapes: ["Cone viewed from the side"] },
+    options: [
+      { text: "A Triangle (pointing down)", icon: "🔻 Triangle" },
+      { text: "A Circle", icon: "⚪ Circle" },
+      { text: "A Square", icon: "🟩 Square" },
+      { text: "A Heart", icon: "💗 Heart" }
+    ],
+    correctIndex: 0,
+    hint: "From the side, a cone is wide at the top and comes to a point at the bottom - which flat shape is that?",
+    explanation: "From the side, a point-down cone's outline is a triangle! (From the top, it would look like a circle.)"
+  },
+  {
+    id: "spat_14",
+    category: "spatial_folding",
+    standard: "Spatial - Puzzle Piece Fit",
+    difficulty: 3,
+    prompt: "A square hole is missing from Lily's puzzle. Which piece will fit the hole PERFECTLY?",
+    visualType: "classification",
+    visualData: { shapes: ["Square hole needs..."] },
+    options: [
+      { text: "A square piece exactly the same size", icon: "🟩 Square" },
+      { text: "A circle piece", icon: "⚪ Circle" },
+      { text: "A bigger square piece", icon: "🟦 Bigger" },
+      { text: "A star piece", icon: "⭐ Star" }
+    ],
+    correctIndex: 0,
+    hint: "A piece fits perfectly only when its shape AND size exactly match the hole!",
+    explanation: "Only a square of the exact same size fills a square hole with no gaps and no overlap!"
+  },
+  {
+    id: "log_12",
+    category: "logic_mysteries",
+    standard: "SCPS FOCUS - Two-Chest Truth Puzzle",
+    difficulty: 4,
+    prompt: "Two treasure chests, and only ONE has the prize.\n• The Red chest's sign says: 'The prize is NOT in here.'\n• The Red chest's sign is TRUE.\nWhere is the prize?",
+    visualType: "treasure_chests",
+    visualData: { gold: "Red: prize NOT here (true)", silver: "Green chest" },
+    options: [
+      { text: "In the Green chest", icon: "🟢 Green Chest" },
+      { text: "In the Red chest", icon: "🔴 Red Chest" },
+      { text: "In both chests", icon: "🎁 Both" },
+      { text: "In neither chest", icon: "❌ Neither" }
+    ],
+    correctIndex: 0,
+    hint: "The sign tells the truth: the prize is NOT in the Red chest. And only one other chest exists...",
+    explanation: "Since the true sign says the prize is not in Red, and one chest must have it, the prize is in the Green chest!"
+  },
+  {
+    id: "log_13",
+    category: "logic_mysteries",
+    standard: "SCPS FOCUS - Sharing Puzzle Logic",
+    difficulty: 3,
+    prompt: "Lily, Noah, and Maya share 6 cookies EQUALLY - everyone gets the same amount. Then Lily gives 1 of her cookies to Maya. How many cookies does Maya have now?",
+    visualType: "word_problem",
+    visualData: { start: 6, gave: "2 each, then +1" },
+    options: [
+      { text: "3 cookies (2 + 1)", icon: "🍪 3" },
+      { text: "2 cookies", icon: "🍪 2" },
+      { text: "4 cookies", icon: "🍪 4" },
+      { text: "1 cookie", icon: "🍪 1" }
+    ],
+    correctIndex: 0,
+    hint: "First share: 6 cookies ÷ 3 kids = 2 cookies each. Then Maya gets 1 more from Lily!",
+    explanation: "Everyone starts with 2 cookies (6 shared by 3). Maya gets 1 more from Lily: 2 + 1 = 3 cookies!"
+  },
+  {
+    id: "sci_14",
+    category: "science_inquiry",
+    standard: "VA SOL 1.5 - Camouflage & Adaptations",
+    difficulty: 3,
+    prompt: "A green grasshopper sits very still in green grass so the hungry bird can't spot it. What is this hiding trick called?",
+    visualType: "camouflage",
+    visualData: { season: "Summer grass" },
+    options: [
+      { text: "Camouflage - blending in with its surroundings", icon: "🦗 Camouflage" },
+      { text: "Hibernation - sleeping all winter", icon: "😴 Hibernation" },
+      { text: "Migration - flying south", icon: "🛫 Migration" },
+      { text: "Evaporation - turning into gas", icon: "💨 Evaporation" }
+    ],
+    correctIndex: 0,
+    hint: "Green bug + green grass = very hard to see! What do we call matching your background to hide?",
+    explanation: "Camouflage means an animal's colors match its surroundings so predators can't easily see it!"
+  },
+  {
+    id: "sci_15",
+    category: "science_inquiry",
+    standard: "VA SOL 1.1 - Scientific Investigation (Fair Test)",
+    difficulty: 4,
+    prompt: "Lily wants to find out if plants grow taller with more sunlight. She grows 2 identical plants: one in the sunny window, one in a dark closet. What should she do NEXT, like a real scientist?",
+    visualType: "plant_needs",
+    visualData: { plant: "Experiment" },
+    options: [
+      { text: "Measure and record both plants every day", icon: "📏 Measure" },
+      { text: "Just guess which one wins", icon: "🤷 Guess" },
+      { text: "Water only the sunny plant", icon: "💧 Unfair!" },
+      { text: "Forget about them for a year", icon: "🗓️ Forget" }
+    ],
+    correctIndex: 0,
+    hint: "Scientists observe, measure, and write down what happens - and keep everything else fair and equal!",
+    explanation: "A good scientist measures and records both plants each day, keeping everything the same except the sunlight. That's called a fair test!"
+  },
+  {
+    id: "sci_16",
+    category: "science_inquiry",
+    standard: "VA SOL 1.7 - The Water Cycle (Puddle Mystery)",
+    difficulty: 4,
+    prompt: "After the rain stopped, Lily saw a big puddle on the playground. By the next sunny afternoon, the puddle was GONE! Where did the water go?",
+    visualType: "matter_change",
+    visualData: { from: "Puddle", heat: "Sunshine" },
+    options: [
+      { text: "It evaporated - the sun's heat turned it into invisible water vapor in the air", icon: "💨 Evaporated" },
+      { text: "A giant drank it", icon: "🦖 Drank" },
+      { text: "It turned into solid gold", icon: "🪙 Gold" },
+      { text: "It froze into ice on a hot day", icon: "🧊 Froze" }
+    ],
+    correctIndex: 0,
+    hint: "The sun warmed the water until it changed from liquid into a gas you can't see, floating up into the air!",
+    explanation: "The sun's heat made the puddle evaporate - the liquid water turned into water vapor (a gas) and rose into the air. That's part of the water cycle!"
   }
 ];
 
@@ -1476,16 +1755,21 @@ if (typeof generateAllProceduralQuestions === "function") {
   QUESTION_BANK.push(...generateAllProceduralQuestions());
 }
 
-// Safety net: guarantee Lily never sees the exact same question prompt twice, even if a
+// Safety net: guarantee Lily never sees the exact same question twice, even if a
 // generator's pool is small enough to produce a coincidental duplicate.
-(function dedupeQuestionBankByPrompt() {
-  const seenPrompts = new Set();
+// Two questions count as duplicates only if their prompt AND visual AND correct answer
+// all match — questions like the 2x2 matrix puzzles share one prompt but differ in
+// their visuals/answers, and those must all survive.
+(function dedupeQuestionBank() {
+  const seen = new Set();
   for (let i = QUESTION_BANK.length - 1; i >= 0; i--) {
-    const key = QUESTION_BANK[i].prompt;
-    if (seenPrompts.has(key)) {
+    const q = QUESTION_BANK[i];
+    const correctText = (q.options && q.options[q.correctIndex]) ? q.options[q.correctIndex].text : "";
+    const key = q.prompt + "||" + JSON.stringify(q.visualData || {}) + "||" + correctText;
+    if (seen.has(key)) {
       QUESTION_BANK.splice(i, 1);
     } else {
-      seenPrompts.add(key);
+      seen.add(key);
     }
   }
 })();
