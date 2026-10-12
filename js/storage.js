@@ -99,7 +99,7 @@ class StorageManager {
     // Track a rolling window of recently served questions so Smart Play never loops back too soon
     const recent = (this.state.recentQuestionIds || []).filter(id => id !== questionId);
     recent.push(questionId);
-    this.state.recentQuestionIds = recent.slice(-30);
+    this.state.recentQuestionIds = recent.slice(-80);
 
     if (isCorrect) {
       this.state.totalCorrect += 1;

@@ -112,22 +112,31 @@ class AdaptiveEngine {
     const catStats = this.storage.getCategoryStats()[targetCatId] || { level: 1 };
     const currentLevel = catStats.level || 1;
 
-    // Filter questions by category and matching or adjacent difficulty
-    let candidates = this.questionBank.filter(q => q.category === targetCatId);
-    let matchedDifficulty = candidates.filter(q => q.difficulty === currentLevel);
+    const candidates = this.questionBank.filter(q => q.category === targetCatId);
 
-    // If no exact match, fallback to any in category
-    if (matchedDifficulty.length === 0) {
-      matchedDifficulty = candidates;
-    }
-
-    // Avoid repeating anything Lily has seen recently (rolling window), not just the last one.
-    // Fall back progressively so a small category never returns an empty pool.
+    // Exclude anything Lily has seen recently (rolling window) BEFORE matching
+    // difficulty, then widen the difficulty window (harder levels first) whenever
+    // the exact level has too few fresh questions. Filtering by difficulty first
+    // used to trap her in a loop: a level with only 2-3 questions kept serving
+    // those same questions forever once everything else was "recent".
     const recentIds = new Set(state.recentQuestionIds || []);
     const lastAnsweredId = state.lastAnsweredId;
-    let pool = matchedDifficulty.filter(q => !recentIds.has(q.id));
-    if (pool.length === 0) pool = matchedDifficulty.filter(q => q.id !== lastAnsweredId);
-    if (pool.length === 0) pool = matchedDifficulty;
+    const fresh = candidates.filter(q => !recentIds.has(q.id));
+
+    const MIN_FRESH_POOL = 6;
+    const levelPreference = [
+      currentLevel, currentLevel + 1, currentLevel - 1,
+      currentLevel + 2, currentLevel - 2, currentLevel + 3, currentLevel - 3
+    ];
+    let pool = [];
+    for (const lvl of levelPreference) {
+      if (lvl < 1 || lvl > 4) continue;
+      pool = pool.concat(fresh.filter(q => (q.difficulty || 1) === lvl));
+      if (pool.length >= MIN_FRESH_POOL) break;
+    }
+    if (pool.length === 0) pool = fresh;
+    if (pool.length === 0) pool = candidates.filter(q => q.id !== lastAnsweredId);
+    if (pool.length === 0) pool = candidates;
 
     const selected = pool[Math.floor(Math.random() * pool.length)] || this.questionBank[0];
 

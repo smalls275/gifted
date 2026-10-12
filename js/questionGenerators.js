@@ -3142,6 +3142,199 @@ function generateWinterSurvivalQuestions(count) {
 
 
 // ==========================================
+// LEVEL 4 SCIENCE CHALLENGE GENERATORS (science_inquiry)
+// The adaptive engine escalates Lily to difficulty 4 quickly, and the bank
+// previously had only 3 hand-written level-4 science questions — which made
+// the science section loop the same few questions. These keep level 4 fresh.
+// ==========================================
+
+// Food chains (difficulty 4)
+const FOOD_CHAIN_POOL = [
+  { chain: ["Sun", "Grass", "Grasshopper", "Bird"], icons: ["☀️", "🌱", "🦗", "🐦"] },
+  { chain: ["Sun", "Grass", "Rabbit", "Fox"], icons: ["☀️", "🌱", "🐰", "🦊"] },
+  { chain: ["Sun", "Algae", "Small Fish", "Shark"], icons: ["☀️", "🌿", "🐟", "🦈"] },
+  { chain: ["Sun", "Flower", "Caterpillar", "Bird"], icons: ["☀️", "🌸", "🐛", "🐦"] },
+  { chain: ["Sun", "Acorn", "Squirrel", "Hawk"], icons: ["☀️", "🌰", "🐿️", "🦅"] },
+  { chain: ["Sun", "Leaves", "Deer", "Wolf"], icons: ["☀️", "🍃", "🦌", "🐺"] },
+  { chain: ["Sun", "Seeds", "Mouse", "Owl"], icons: ["☀️", "🌾", "🐭", "🦉"] },
+  { chain: ["Sun", "Water Plants", "Tadpole", "Heron"], icons: ["☀️", "🌿", "🐸", "🪿"] }
+];
+const FOOD_CHAIN_DISTRACTOR_ANIMALS = ["Elephant", "Penguin", "Camel", "Whale", "Rock", "Cloud", "Tree", "Bee"];
+
+function generateFoodChainQuestions(count) {
+  const out = [];
+  for (let i = 0; i < count; i++) {
+    const item = pgPick(FOOD_CHAIN_POOL);
+    const askIdx = pgRandInt(1, item.chain.length - 1); // never ask about the Sun slot
+    const correct = item.chain[askIdx];
+    const eaten = item.chain[askIdx - 1];
+    const wrongs = pgPickN(
+      FOOD_CHAIN_DISTRACTOR_ANIMALS.filter(a => !item.chain.includes(a)),
+      3
+    );
+    const options = pgShuffle([correct, ...wrongs]).map((t, oi) => ({
+      text: t,
+      icon: t === correct ? item.icons[askIdx] : "❓"
+    }));
+    const correctIndex = options.findIndex(o => o.text === correct);
+    const chainWithBlank = item.chain.map((c, ci) => (ci === askIdx ? "___" : c)).join(" ➔ ");
+    out.push({
+      id: `gen_foodchain_${i}_${correct}_${Math.random()}`,
+      category: "science_inquiry",
+      standard: "VA SOL 1.5 - Food Chains & Energy Flow",
+      difficulty: 4,
+      prompt: `A food chain shows who eats what! Fill in the missing link: ${chainWithBlank}`,
+      visualType: "classification",
+      visualData: { shapes: item.chain.map((c, ci) => (ci === askIdx ? "❓" : c)) },
+      options,
+      correctIndex,
+      hint: askIdx === 1
+        ? `The first living link in a food chain is always a plant that uses the Sun's energy to grow.`
+        : `Think about which animal eats ${eaten.toLowerCase()}!`,
+      explanation: `The missing link is ${correct}! The full chain is: ${item.chain.join(" ➔ ")}. Energy passes from the Sun to plants to animals.`
+    });
+  }
+  return out;
+}
+
+// Changes of state: melting, freezing, evaporating, condensing (difficulty 4)
+const MATTER_CHANGE_POOL = [
+  { q: "Lily leaves an ice cube on the sunny sidewalk. What happens and why?", correct: "It MELTS into liquid water because the sun's heat warms it", icon: "🧊", wrongs: ["It freezes even harder", "It turns into a rock", "It floats up into the sky as ice"] },
+  { q: "Mom puts a tray of water in the freezer overnight. What happens and why?", correct: "It FREEZES into solid ice because the cold takes away its heat", icon: "❄️", wrongs: ["It boils into steam", "It stays exactly the same", "It turns into milk"] },
+  { q: "A puddle slowly disappears on a hot, sunny day. What is happening?", correct: "The water EVAPORATES - it turns into invisible vapor and rises into the air", icon: "💨", wrongs: ["The ground eats the water", "The water turns into sand", "The puddle freezes solid"] },
+  { q: "Lily sees tiny water drops form on the OUTSIDE of her cold lemonade glass. Where did they come from?", correct: "Water vapor in the air cooled on the cold glass and turned back into liquid", icon: "🥤", wrongs: ["The glass is leaking", "The lemonade jumped out", "Someone splashed it"] },
+  { q: "A chocolate bar left in a hot car becomes soft and gooey. Why?", correct: "Heat made the solid chocolate start to MELT toward liquid", icon: "🍫", wrongs: ["Cold made it harder", "It evaporated into chocolate air", "It froze"] },
+  { q: "Steam rises from hot soup. What IS that steam?", correct: "Water from the soup turning into a gas because it is so hot", icon: "🍲", wrongs: ["Tiny clouds that fell in the soup", "Smoke from fire inside the soup", "Cold air escaping"] },
+  { q: "Lily's wet swimsuit dries on the clothesline in the sun. Where did the water go?", correct: "It evaporated into the air as invisible water vapor", icon: "👙", wrongs: ["It soaked into the moon", "It turned into salt", "It is hiding inside the fabric forever"] },
+  { q: "Which of these changes can be UNDONE by changing the temperature back?", correct: "Freezing water into ice (you can melt it again!)", icon: "🔁", wrongs: ["Burning a piece of paper", "Baking cookie dough into cookies", "Scrambling an egg"] }
+];
+
+function generateMatterChangeQuestions(count) {
+  const pool = pgShuffle(MATTER_CHANGE_POOL);
+  const chosen = count >= pool.length ? pool : pool.slice(0, count);
+  return chosen.map((item, i) => {
+    const options = pgShuffle([item.correct, ...item.wrongs]).map(t => ({ text: t, icon: item.icon }));
+    const correctIndex = options.findIndex(o => o.text === item.correct);
+    return {
+      id: `gen_matterchange_${i}_${i}_${Math.random()}`,
+      category: "science_inquiry",
+      standard: "VA SOL 1.7 - Changes in Matter (Melt, Freeze, Evaporate)",
+      difficulty: 4,
+      prompt: item.q,
+      visualType: "matter_change",
+      visualData: { from: "Matter", heat: "Temperature" },
+      options,
+      correctIndex,
+      hint: `Heat and cold change matter: heat melts and evaporates, cold freezes, and cooling vapor condenses into drops.`,
+      explanation: `${item.correct}!`
+    };
+  });
+}
+
+// Scientist thinking: fair tests, predictions, observations (difficulty 4)
+const SCIENTIST_THINKING_POOL = [
+  { q: "Lily wants to test which paper airplane flies farthest. To make it a FAIR test, she should...", correct: "Throw each plane the same way from the same spot", icon: "✈️", wrongs: ["Throw her favorite one extra hard", "Test them on different days with different wind", "Only test the one she likes"] },
+  { q: "Before an experiment, a scientist makes a PREDICTION. What is a prediction?", correct: "A smart guess about what you think will happen", icon: "🔮", wrongs: ["A magic spell", "The final answer that's always right", "A type of microscope"] },
+  { q: "Lily predicts the big rock will sink. She drops it in water and it sinks! What did she just do?", correct: "Tested her prediction with an experiment and observed the result", icon: "🪨", wrongs: ["Proved rocks always float", "Made the water angry", "Skipped the science part"] },
+  { q: "Lily's bean plant experiment: Plant A gets water, Plant B gets none. Everything else must be...", correct: "Exactly the same, so only the water makes the difference", icon: "🌱", wrongs: ["Totally different for fun", "A secret", "In different houses with different light"] },
+  { q: "A scientist's OBSERVATION uses...", correct: "Careful looking, listening, and measuring with your senses and tools", icon: "🔍", wrongs: ["Only wild guessing", "Closing your eyes tight", "Asking a magic 8-ball"] },
+  { q: "Lily measures her sunflower every Monday and writes it in a notebook. Why is writing it down important?", correct: "Records help scientists compare results and spot patterns over time", icon: "📓", wrongs: ["Paper makes plants grow", "So she can rip it up later", "It isn't important at all"] },
+  { q: "Lily's experiment result SURPRISED her - the heavy sponge floated! What should a good scientist do?", correct: "Try it again, observe carefully, and think about why it happened", icon: "🧽", wrongs: ["Pretend it sank", "Quit science forever", "Hide the sponge"] },
+  { q: "Which question can Lily answer with a science EXPERIMENT?", correct: "Do seeds sprout faster in warm soil or cold soil?", icon: "🧪", wrongs: ["Which color is the prettiest?", "What is the best birthday present?", "Which cartoon is the funniest?"] }
+];
+
+function generateScientistThinkingQuestions(count) {
+  const pool = pgShuffle(SCIENTIST_THINKING_POOL);
+  const chosen = count >= pool.length ? pool : pool.slice(0, count);
+  return chosen.map((item, i) => {
+    const options = pgShuffle([item.correct, ...item.wrongs]).map(t => ({ text: t, icon: item.icon }));
+    const correctIndex = options.findIndex(o => o.text === item.correct);
+    return {
+      id: `gen_scientist_${i}_${i}_${Math.random()}`,
+      category: "science_inquiry",
+      standard: "VA SOL 1.1 - Scientific Investigation & Fair Tests",
+      difficulty: 4,
+      prompt: item.q,
+      visualType: "classification",
+      visualData: { shapes: options.map(o => o.text) },
+      options,
+      correctIndex,
+      hint: `Real scientists predict, test fairly (change only ONE thing), observe closely, and write down what happens.`,
+      explanation: `${item.correct}!`
+    };
+  });
+}
+
+// Sun & shadow reasoning (difficulty 4)
+const SHADOW_REASONING_POOL = [
+  { q: "At noon the sun is HIGH in the sky. What does Lily's shadow look like?", correct: "Short - almost right under her feet", icon: "🕛", wrongs: ["Super long and stretchy", "Exactly her height always", "Shadows disappear at noon"] },
+  { q: "Early in the morning the sun is LOW in the sky. What does Lily's shadow look like?", correct: "Long and stretched out", icon: "🌅", wrongs: ["A tiny dot", "Shorter than at noon", "Bright yellow"] },
+  { q: "What makes a shadow appear behind Lily?", correct: "Her body BLOCKS the sunlight, leaving a dark shape", icon: "🚶", wrongs: ["The ground paints itself", "Shadows live underground and come up", "Cold air turns dark"] },
+  { q: "Lily's shadow points WEST in the morning. Why?", correct: "The sun rises in the east, and shadows point away from the sun", icon: "🧭", wrongs: ["Shadows always point north", "Her shadow is lost", "The wind blows shadows west"] },
+  { q: "On a cloudy day, Lily's shadow is very faint or gone. Why?", correct: "Clouds block and scatter the sunlight, so there's no strong light to block", icon: "☁️", wrongs: ["Shadows take naps", "Clouds eat shadows", "Her shadow went home"] },
+  { q: "Can Lily make a shadow at night in a dark room?", correct: "Yes - if she turns on a flashlight or lamp to block", icon: "🔦", wrongs: ["No, shadows only exist outside", "Yes, shadows glow in the dark", "No, nighttime deletes shadows forever"] }
+];
+
+function generateShadowReasoningQuestions(count) {
+  const pool = pgShuffle(SHADOW_REASONING_POOL);
+  const chosen = count >= pool.length ? pool : pool.slice(0, count);
+  return chosen.map((item, i) => {
+    const options = pgShuffle([item.correct, ...item.wrongs]).map(t => ({ text: t, icon: item.icon }));
+    const correctIndex = options.findIndex(o => o.text === item.correct);
+    return {
+      id: `gen_shadowreason_${i}_${i}_${Math.random()}`,
+      category: "science_inquiry",
+      standard: "VA SOL 1.6 - Sun, Light & Shadows",
+      difficulty: 4,
+      prompt: item.q,
+      visualType: "shadow_science",
+      visualData: { sunPosition: "varies" },
+      options,
+      correctIndex,
+      hint: `A shadow forms when something blocks light. Low sun = long shadow, high sun = short shadow!`,
+      explanation: `${item.correct}!`
+    };
+  });
+}
+
+// Animal adaptations: WHY does the body part help? (difficulty 4)
+const ADAPTATION_POOL = [
+  { q: "Why does a giraffe have such a LONG neck?", correct: "To reach leaves high up in trees that other animals can't eat", icon: "🦒", wrongs: ["To look into windows", "To tie it in a bow", "To hear better"] },
+  { q: "Why do ducks have WEBBED feet?", correct: "Webbed feet work like paddles for swimming", icon: "🦆", wrongs: ["For wearing tiny shoes", "To climb trees faster", "To dig tunnels"] },
+  { q: "Why is a polar bear's fur so THICK?", correct: "It traps heat to keep the bear warm in the freezing Arctic", icon: "🐻‍❄️", wrongs: ["To look fluffy for photos", "To help it swim faster only", "Because it never grew up"] },
+  { q: "Why does a cactus have sharp SPINES instead of soft leaves?", correct: "Spines protect it from thirsty animals and save water in the hot desert", icon: "🌵", wrongs: ["To poke clouds for rain", "Because it is angry", "To catch butterflies"] },
+  { q: "Why does an owl have such BIG eyes?", correct: "Big eyes gather lots of light so it can hunt at night", icon: "🦉", wrongs: ["To win staring contests", "Because it watches too much TV", "To cry bigger tears"] },
+  { q: "Why does a rabbit have such LONG ears?", correct: "To hear danger coming from far away", icon: "🐰", wrongs: ["To fly like wings", "To use as umbrellas", "To look taller"] },
+  { q: "Why does a turtle carry a hard SHELL?", correct: "The shell is armor that protects its soft body from predators", icon: "🐢", wrongs: ["It's a backpack for snacks", "To bounce like a ball", "To slide down hills only"] },
+  { q: "Why do arctic foxes turn WHITE in winter?", correct: "White fur camouflages them against the snow", icon: "🦊", wrongs: ["They get painted by elves", "Snow bleaches their fur by accident", "To match their socks"] },
+  { q: "Why does a woodpecker have a strong, pointy BEAK?", correct: "To drill into tree bark and find insects to eat", icon: "🪵", wrongs: ["To open soda cans", "To write letters", "To comb its feathers only"] },
+  { q: "Why do camels have HUMPS?", correct: "Humps store fat for energy on long desert trips with little food", icon: "🐪", wrongs: ["They are full of water balloons", "For carrying backpacks", "They are just pillows"] }
+];
+
+function generateAdaptationQuestions(count) {
+  const pool = pgShuffle(ADAPTATION_POOL);
+  const chosen = count >= pool.length ? pool : pool.slice(0, count);
+  return chosen.map((item, i) => {
+    const options = pgShuffle([item.correct, ...item.wrongs]).map(t => ({ text: t, icon: item.icon }));
+    const correctIndex = options.findIndex(o => o.text === item.correct);
+    return {
+      id: `gen_adaptation_${i}_${i}_${Math.random()}`,
+      category: "science_inquiry",
+      standard: "VA SOL 1.5 - Animal & Plant Adaptations",
+      difficulty: 4,
+      prompt: item.q,
+      visualType: "camouflage",
+      visualData: { season: "Adaptations" },
+      options,
+      correctIndex,
+      hint: `An adaptation is a special body part or trick that helps a living thing survive in its habitat.`,
+      explanation: `${item.correct}!`
+    };
+  });
+}
+
+
+// ==========================================
 // MASTER GENERATOR - assembles a huge, freshly-randomized question set every load
 // ==========================================
 function generateAllProceduralQuestions() {
@@ -3234,7 +3427,14 @@ function generateAllProceduralQuestions() {
     ...generateEarthCareQuestions(EARTH_CARE_POOL.length),
     ...generatePlantPartQuestions(PLANT_PART_POOL.length),
     ...generateSkyQuestions(SKY_POOL.length),
-    ...generateWinterSurvivalQuestions(WINTER_SURVIVAL_POOL.length)
+    ...generateWinterSurvivalQuestions(WINTER_SURVIVAL_POOL.length),
+
+    // Science Level-4 Challenges (keeps the top difficulty fresh and varied)
+    ...generateFoodChainQuestions(40),
+    ...generateMatterChangeQuestions(MATTER_CHANGE_POOL.length),
+    ...generateScientistThinkingQuestions(SCIENTIST_THINKING_POOL.length),
+    ...generateShadowReasoningQuestions(SHADOW_REASONING_POOL.length),
+    ...generateAdaptationQuestions(ADAPTATION_POOL.length)
   ];
 }
 
