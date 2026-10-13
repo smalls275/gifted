@@ -87,8 +87,12 @@ class AdaptiveEngine {
     // Recently-seen tracking uses content fingerprints (prompt + correct answer),
     // NOT question ids: ids are regenerated randomly on every page load, so saved
     // ids never match after a refresh and the no-repeat memory silently reset.
-    const recentKeys = new Set(state.recentQuestionIds || []);
-    const justSeenKeys = new Set((state.recentQuestionIds || []).slice(-10));
+    // recentList is a long LRU (oldest first): the last 80 entries are a hard
+    // no-repeat block, and the full list lets us prefer never-seen content.
+    const recentList = state.recentQuestionIds || [];
+    const recentIndex = new Map(recentList.map((key, i) => [key, i]));
+    const recentKeys = new Set(recentList.slice(-80));
+    const justSeenKeys = new Set(recentList.slice(-10));
     const lastAnsweredKey = state.lastAnsweredId;
 
     // 1. Spaced Repetition: re-test a missed question, picked at random from the
@@ -148,7 +152,34 @@ class AdaptiveEngine {
     if (pool.length === 0) pool = candidates.filter(q => questionFingerprint(q) !== lastAnsweredKey);
     if (pool.length === 0) pool = candidates;
 
-    const selected = pool[Math.floor(Math.random() * pool.length)] || this.questionBank[0];
+    // Prefer questions Lily has NEVER seen (not anywhere in the long memory).
+    // If everything near her level has been seen, hunt for never-seen content at
+    // any difficulty (hardest first) before resorting to least-recently-seen.
+    let neverSeen = pool.filter(q => !recentIndex.has(questionFingerprint(q)));
+    if (neverSeen.length === 0) {
+      neverSeen = fresh
+        .filter(q => !recentIndex.has(questionFingerprint(q)))
+        .sort((a, b) => (b.difficulty || 1) - (a.difficulty || 1))
+        .slice(0, 12);
+    }
+
+    let selected;
+    if (neverSeen.length > 0) {
+      selected = neverSeen[Math.floor(Math.random() * neverSeen.length)];
+    } else {
+      // Entire category seen at least once: cycle through the WHOLE category
+      // evenly (not just her level) by serving least-recently-seen questions,
+      // so re-encounters are spaced as far apart as the category allows.
+      const rankOf = q => {
+        const idx = recentIndex.get(questionFingerprint(q));
+        return idx === undefined ? -1 : idx;
+      };
+      const lruSource = fresh.length > 0 ? fresh : pool;
+      const ranked = lruSource.slice().sort((a, b) => rankOf(a) - rankOf(b));
+      const leastRecent = ranked.slice(0, Math.min(8, ranked.length));
+      selected = leastRecent[Math.floor(Math.random() * leastRecent.length)];
+    }
+    if (!selected) selected = this.questionBank[0];
 
     return {
       question: selected,

@@ -100,10 +100,11 @@ class StorageManager {
     const key = questionKey || questionId;
     this.state.lastAnsweredId = key;
 
-    // Track a rolling window of recently served questions so Smart Play never loops back too soon
+    // Long LRU of served questions (oldest first). The engine hard-blocks the
+    // last 80 and uses the full list to prefer content Lily has never seen.
     const recent = (this.state.recentQuestionIds || []).filter(id => id !== key);
     recent.push(key);
-    this.state.recentQuestionIds = recent.slice(-80);
+    this.state.recentQuestionIds = recent.slice(-1500);
 
     if (isCorrect) {
       this.state.totalCorrect += 1;
