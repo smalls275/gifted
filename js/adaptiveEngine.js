@@ -84,11 +84,23 @@ class AdaptiveEngine {
     const state = this.getState();
     const repeatQueue = state.spacedRepetitionQueue || [];
 
-    // 1. Spaced Repetition (re-test missed question after at least 2 other questions)
+    // Recently-seen tracking uses content fingerprints (prompt + correct answer),
+    // NOT question ids: ids are regenerated randomly on every page load, so saved
+    // ids never match after a refresh and the no-repeat memory silently reset.
+    const recentKeys = new Set(state.recentQuestionIds || []);
+    const justSeenKeys = new Set((state.recentQuestionIds || []).slice(-10));
+    const lastAnsweredKey = state.lastAnsweredId;
+
+    // 1. Spaced Repetition: re-test a missed question, picked at random from the
+    // queue (not always the first one) and never within the last 10 questions.
     if (!specificCategory && repeatQueue.length > 0 && Math.random() < 0.35) {
-      const targetId = repeatQueue[0];
-      const q = this.questionBank.find(item => item.id === targetId);
-      if (q) {
+      const queued = new Set(repeatQueue);
+      const reviewable = this.questionBank.filter(q => {
+        const key = questionFingerprint(q);
+        return queued.has(key) && !justSeenKeys.has(key);
+      });
+      if (reviewable.length > 0) {
+        const q = reviewable[Math.floor(Math.random() * reviewable.length)];
         return { question: q, isReview: true, reason: "Reviewing a previous puzzle to boost your brain power!" };
       }
     }
@@ -119,9 +131,7 @@ class AdaptiveEngine {
     // the exact level has too few fresh questions. Filtering by difficulty first
     // used to trap her in a loop: a level with only 2-3 questions kept serving
     // those same questions forever once everything else was "recent".
-    const recentIds = new Set(state.recentQuestionIds || []);
-    const lastAnsweredId = state.lastAnsweredId;
-    const fresh = candidates.filter(q => !recentIds.has(q.id));
+    const fresh = candidates.filter(q => !recentKeys.has(questionFingerprint(q)));
 
     const MIN_FRESH_POOL = 6;
     const levelPreference = [
@@ -135,7 +145,7 @@ class AdaptiveEngine {
       if (pool.length >= MIN_FRESH_POOL) break;
     }
     if (pool.length === 0) pool = fresh;
-    if (pool.length === 0) pool = candidates.filter(q => q.id !== lastAnsweredId);
+    if (pool.length === 0) pool = candidates.filter(q => questionFingerprint(q) !== lastAnsweredKey);
     if (pool.length === 0) pool = candidates;
 
     const selected = pool[Math.floor(Math.random() * pool.length)] || this.questionBank[0];
@@ -155,6 +165,7 @@ class AdaptiveEngine {
     if (!question) return { unlockedBadges: [], levelUp: false };
 
     const catId = question.category;
+    const questionKey = questionFingerprint(question);
     const catStats = this.storage.getCategoryStats()[catId] || {
       attempts: 0,
       correct: 0,
@@ -183,7 +194,7 @@ class AdaptiveEngine {
       }
 
       // Remove from spaced repetition queue if present
-      this.storage.removeFromReviewQueue(questionId);
+      this.storage.removeFromReviewQueue(questionKey);
     } else {
       catStats.consecutiveWrong = (catStats.consecutiveWrong || 0) + 1;
       catStats.consecutiveCorrect = 0;
@@ -195,11 +206,11 @@ class AdaptiveEngine {
       }
 
       // Add to spaced repetition review queue
-      this.storage.addToReviewQueue(questionId);
+      this.storage.addToReviewQueue(questionKey);
     }
 
     this.storage.updateCategoryStat(catId, catStats);
-    this.storage.recordAnswer(questionId, isCorrect);
+    this.storage.recordAnswer(questionId, isCorrect, questionKey);
 
     // Check newly unlocked badges
     const unlockedBadges = this.storage.checkBadges(this.getDomainMastery());
@@ -234,4 +245,12 @@ function masteryMap(bank) {
     map[q.category] = true;
   });
   return map;
+}
+
+// Stable identity for a question that survives page reloads. Question ids get a
+// random suffix every time the bank is generated, so anything persisted to
+// localStorage (recent list, review queue) must key on content instead.
+function questionFingerprint(q) {
+  const correctText = (q.options && q.options[q.correctIndex]) ? q.options[q.correctIndex].text : "";
+  return q.prompt + "||" + correctText;
 }

@@ -92,13 +92,17 @@ class StorageManager {
     this.save();
   }
 
-  recordAnswer(questionId, isCorrect) {
+  recordAnswer(questionId, isCorrect, questionKey) {
     this.state.totalSolved += 1;
-    this.state.lastAnsweredId = questionId;
+
+    // Recent-question memory keys on the content fingerprint (falls back to the
+    // id for safety) because ids are regenerated randomly on every page load.
+    const key = questionKey || questionId;
+    this.state.lastAnsweredId = key;
 
     // Track a rolling window of recently served questions so Smart Play never loops back too soon
-    const recent = (this.state.recentQuestionIds || []).filter(id => id !== questionId);
-    recent.push(questionId);
+    const recent = (this.state.recentQuestionIds || []).filter(id => id !== key);
+    recent.push(key);
     this.state.recentQuestionIds = recent.slice(-80);
 
     if (isCorrect) {
@@ -124,6 +128,11 @@ class StorageManager {
   addToReviewQueue(questionId) {
     if (!this.state.spacedRepetitionQueue.includes(questionId)) {
       this.state.spacedRepetitionQueue.push(questionId);
+      // Cap the queue so entries for questions that never regenerate (random
+      // numbers/names in their prompts) can't accumulate forever.
+      if (this.state.spacedRepetitionQueue.length > 40) {
+        this.state.spacedRepetitionQueue.shift();
+      }
       this.save();
     }
   }
